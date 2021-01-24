@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Memory_Map</string>
+    <string name="welcome">Welcome</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="id">id</string>
+    <string name="pw">pw</string>
+    <string name="username">username</string>
+    <string name="email">email</string>
+    <string name="create">create</string>
 </resources>

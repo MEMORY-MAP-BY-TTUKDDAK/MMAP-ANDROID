@@ -7,9 +7,174 @@
     android:background="@drawable/createaccount">
 
     <RelativeLayout
+        android:id="@+id/header_oval"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@drawable/header_oval">
 
+        <RelativeLayout
+            android:id="@+id/header_rectangle"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@drawable/header_rectangle">
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/logo_small"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/logo">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="14dp"
+            android:text="@string/welcome"
+            android:textColor="#F2D0B9"
+            android:textSize="22sp"></TextView>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="325dp"
+        android:id="@+id/personal_info"
+        android:layout_below="@id/header_oval">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/CreateAccountText"
+            android:layout_marginTop="60dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/create_new_account"
+            android:textColor="#F6D170"
+            android:textSize="32sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/ID"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/CreateAccountText"
+            android:layout_below="@id/CreateAccountText"
+            android:layout_alignStart="@id/CreateAccountText"
+            android:layout_marginTop="7dp"
+            android:text="@string/id"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/input_id"
+            android:layout_width="240dp"
+            android:layout_height="30dp"
+            android:background="#4DFFFFFF"
+            android:layout_alignRight="@id/CreateAccountText"
+            android:layout_below="@id/CreateAccountText"
+            android:layout_alignEnd="@id/CreateAccountText"
+            android:inputType="text"
+            android:layout_marginTop="9dp">
+        </EditText>
+
+        <TextView
+            android:id="@+id/pw"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/ID"
+            android:layout_below="@id/ID"
+            android:layout_alignStart="@id/ID"
+            android:layout_marginTop="7dp"
+            android:text="@string/pw"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/input_pw"
+            android:layout_width="240dp"
+            android:layout_height="30dp"
+            android:background="#4DFFFFFF"
+            android:layout_alignRight="@id/input_id"
+            android:layout_below="@id/input_id"
+            android:layout_alignEnd="@id/input_id"
+            android:inputType="textPassword"
+            android:layout_marginTop="9dp">
+        </EditText>
+
+        <TextView
+            android:id="@+id/Username"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/pw"
+            android:layout_below="@id/pw"
+            android:layout_alignStart="@id/pw"
+            android:layout_marginTop="7dp"
+            android:text="@string/username"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/input_username"
+            android:layout_width="165dp"
+            android:layout_height="30dp"
+            android:background="#4DFFFFFF"
+            android:layout_alignRight="@id/input_pw"
+            android:layout_below="@id/input_pw"
+            android:layout_alignEnd="@id/input_pw"
+            android:inputType="text"
+            android:layout_marginTop="9dp">
+        </EditText>
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/Username"
+            android:layout_below="@id/Username"
+            android:layout_alignStart="@id/Username"
+            android:layout_marginTop="7dp"
+            android:text="@string/email"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/input_email"
+            android:layout_width="225dp"
+            android:layout_height="30dp"
+            android:background="#4DFFFFFF"
+            android:layout_alignRight="@id/input_username"
+            android:layout_below="@id/input_username"
+            android:layout_alignEnd="@id/input_username"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="9dp">
+        </EditText>
+
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="95dp"
+            android:layout_height="35dp"
+            android:background="@drawable/button"
+            android:text="@string/create"
+            android:textColor="#F6D170"
+            android:layout_alignRight="@id/input_email"
+            android:layout_alignEnd="@id/input_email"
+            android:layout_below="@id/input_email"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="16dp"
+            >
+        </Button>
+
+    </RelativeLayout>
+
+
+
 </RelativeLayout>
