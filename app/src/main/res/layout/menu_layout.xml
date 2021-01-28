@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#345e86"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/header_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_header_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp">
+        </ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_logo"
+            android:layout_margin="2dp"
+            android:gravity="center_horizontal"
+            android:text="@string/memorymap"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/createaccount"
+        android:layout_below="@id/header"
+        android:layout_above="@id/bottom_menu"
+        android:id="@+id/container">
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:itemIconTint="#333"
+        app:itemTextColor="#f6d170"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_menu"/>
+</RelativeLayout>

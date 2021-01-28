@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateAccount"/>
+        <activity android:name=".ChooseMenu"/>
     </application>
 
 </manifest>

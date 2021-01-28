@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     EditText pwInput;
     Button sign_in_button;
     public static final int REQUEST_CODE_CREATE_ACCOUNT = 101;
+    public static final int REQUEST_CODE_MENU = 201;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if((idInput.length() == 0) || (pwInput.length() == 0)){
                     Toast.makeText(getApplicationContext(), "must enter all information",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(getApplicationContext(), ChooseMenu.class);
+                    startActivityForResult(intent, REQUEST_CODE_MENU);
                 }
             }
         }));
