@@ -10,21 +10,23 @@
 
     <ImageView
         android:id="@+id/mainLogo"
-        android:background="@drawable/logo"
+        android:background="@drawable/ic_header_logo"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center"
-        android:layout_marginTop="140dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="170dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
 
     <TextView
         android:id="@+id/title_Main"
-        android:layout_marginBottom="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="45sp"
+        android:layout_marginBottom="30dp"
         android:text="MEMORY MAP"
-        android:textColor="#FFFFFF"/>
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/input_Main"
@@ -33,79 +35,96 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/id_Main"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:text="id"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp" />
+                android:layout_marginBottom="10dp"
+                android:text="아이디"
+                android:textColor="#535F53"
+                android:textStyle="bold"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/input_id_Main"
-                android:layout_width="250dp"
+                android:layout_width="330dp"
                 android:layout_height="30dp"
-                android:layout_alignLeft="@id/id_Main"
+                android:layout_alignBottom="@id/id_Main"
+                android:layout_marginBottom="10dp"
+                android:background="#00FFFFFF"
+                android:hint="id"
                 android:inputType="text"
-                android:background="#4DFFFFFF" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+                android:textColorHint="#FFFFFF" />
 
             <TextView
                 android:id="@+id/pw_Main"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:text="pw"
+                android:layout_marginBottom="10dp"
+                android:text="비밀번호"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp" />
+                android:textColor="#535F53"
+                android:textStyle="bold"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/input_pw_Main"
-                android:layout_width="250dp"
+                android:layout_width="330dp"
                 android:layout_height="30dp"
-                android:inputType="textPassword"
-                android:layout_alignLeft="@id/id_Main"
-                android:background="#4DFFFFFF" />
+                android:layout_alignBottom="@id/pw_Main"
+                android:layout_marginBottom="20dp"
+                android:background="#00FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:hint="password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/signInBtn_Main"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_login"
+                android:text="로그인"
+                android:textStyle="bold"
+                android:textColor="#23648C"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/signInBtn_Main"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="right"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/button"
-            android:text="Sign In"
-            android:textColor="#F6D170"
-            android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/no_account_yet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
+        <LinearLayout
+            android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="30dp"
-            android:text="No Account Yet? Click here"
-            android:textColor="#AD247F"
-            android:textSize="15sp" />
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/no_account_yet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="New to MMAP?"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Create an Account"
+                android:textColor="#5AADBF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>
