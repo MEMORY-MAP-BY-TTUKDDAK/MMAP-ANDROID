@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Memory_Map</string>
     <string name="welcome">Welcome</string>
-    <string name="create_new_account">Create New Account</string>
-    <string name="id">id</string>
-    <string name="pw">pw</string>
-    <string name="username">username</string>
-    <string name="email">email</string>
-    <string name="create">create</string>
+    <string name="sign_up_to">Sign Up to Memory Map</string>
+    <string name="id">아이디</string>
+    <string name="pw">비밀번호</string>
+    <string name="username">닉네임</string>
+    <string name="email">이메일</string>
+    <string name="create">가입하기</string>
     <string name="memorymap">MEMORY MAP</string>
 
     <!-- TODO: Remove or change this placeholder text -->
