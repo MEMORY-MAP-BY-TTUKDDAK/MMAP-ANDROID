@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F7EDEA"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".EditView">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="editView" />
+    <ImageView
+        android:id="@+id/edit_Image"
+        android:layout_marginBottom="20dp"
+        android:layout_width="350dp"
+        android:layout_height="200dp"/>
 
-</FrameLayout>
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="320dp"
+        android:layout_marginBottom="20dp"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:gravity="top"
+        android:hint="텍스트 작성"
+        android:inputType="text"
+        android:maxLength="140"
+        android:textColor="#929292"
+        android:textColorHint="#929292" />
+
+    <Button
+        android:id="@+id/edit_saveButton"
+        android:background="@drawable/button"
+        android:text="기록 저장하기"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
