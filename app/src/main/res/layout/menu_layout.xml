@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
-        app:itemIconTint="#333"
+        app:itemIconTint="@drawable/menu_drawable"
         app:itemTextColor="#f6d170"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_menu"/>
