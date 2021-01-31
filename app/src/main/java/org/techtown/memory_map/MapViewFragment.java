@@ -48,7 +48,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this.getActivity());
         LatLng curPoint = new LatLng(35.7, 127);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(curPoint, 1);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(curPoint, 5);
         googleMap.animateCamera(cameraUpdate);
         googleMap.addMarker(new MarkerOptions().position(curPoint).title("temporary"));
     }
