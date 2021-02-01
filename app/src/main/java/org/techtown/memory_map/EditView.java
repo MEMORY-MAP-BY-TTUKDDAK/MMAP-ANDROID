@@ -5,12 +5,18 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaActionSound;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -23,7 +29,10 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,17 +40,17 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
-
 public class EditView extends Fragment {
 
     private ImageView edit_image;
     private Context context;
     private static final int GALLERY_REQUEST_CODE = 301;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 401;
 
-    private File tempFile;
 
     Button Date_edit;
     Date Selected_date;
+
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,11 +64,33 @@ public class EditView extends Fragment {
                 showDateDialog();
             }
         });
+
         Date curDate = new Date();
         setSelectedDate(curDate);
 
         context = container.getContext();
-        initUI(rootView);
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), new String [] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_PERMISSION);
+            }
+        } else {
+
+        }
+
+        edit_image = rootView.findViewById(R.id.edit_Image);
+
+        edit_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(intent, GALLERY_REQUEST_CODE);
+            }
+        });
+
         return rootView;
     }
 
@@ -96,7 +127,6 @@ public class EditView extends Fragment {
         }
     };
 
-
     private void setSelectedDate(Date curDate) {
         Selected_date = curDate;
 
@@ -104,67 +134,24 @@ public class EditView extends Fragment {
         Date_edit.setText(selectedDateStr);
     }
 
-    private void initUI(ViewGroup rootView) {
-        edit_image = (ImageView)rootView.findViewById(R.id.edit_Image);
-
-        edit_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-
-                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent, GALLERY_REQUEST_CODE);
-            }
-        });
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            Toast.makeText(context, "취소 되었습니다.", Toast.LENGTH_LONG).show();
-
-            if (tempFile != null) {
-                if (tempFile.exists()) {
-                    if (tempFile.delete()) {
-                        tempFile = null;
-                    }
-                }
-            }
-
-            return;
-        }
-
         if (requestCode == GALLERY_REQUEST_CODE) {
             Uri photoUri = data.getData();
-            Cursor cursor = null;
 
             try {
-                String[] proj = {MediaStore.Images.Media.DATA};
-
-                assert photoUri != null;
-                cursor = getContext().getContentResolver().query(photoUri, proj, null, null, null);
-
-                assert cursor != null;
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-                cursor.moveToFirst();
-
-                tempFile = new File(cursor.getString(column_index));
-
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
+                edit_image.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            setImage();
         }
     }
 
-    private void setImage() {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
-
-        edit_image.setImageBitmap(originalBm);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
 }
