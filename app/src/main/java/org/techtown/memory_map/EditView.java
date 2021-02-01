@@ -2,6 +2,7 @@ package org.techtown.memory_map;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,14 +18,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
-
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -37,16 +40,68 @@ public class EditView extends Fragment {
 
     private File tempFile;
 
+    Button Date_edit;
+    Date Selected_date;
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_editview, container, false);
 
+        Date_edit = rootView.findViewById(R.id.date_edit);
+        Date_edit.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showDateDialog();
+            }
+        });
+        Date curDate = new Date();
+        setSelectedDate(curDate);
+
         context = container.getContext();
-
         initUI(rootView);
-
-        tedPermission();
-
         return rootView;
+    }
+
+    private void showDateDialog() {
+        String birthDateStr = Date_edit.getText().toString();
+
+        Calendar calendar = Calendar.getInstance();
+        Date curBirthDate = new Date();
+        try {
+            curBirthDate = dateFormat.parse(birthDateStr);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
+        calendar.setTime(curBirthDate);
+
+        int curYear = calendar.get(Calendar.YEAR);
+        int curMonth = calendar.get(Calendar.MONTH);
+        int curDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(getContext(),  birthDateSetListener,  curYear, curMonth, curDay);
+        dialog.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener birthDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            Calendar selectedCalendar = Calendar.getInstance();
+            selectedCalendar.set(Calendar.YEAR, year);
+            selectedCalendar.set(Calendar.MONTH, monthOfYear);
+            selectedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            Date curDate = selectedCalendar.getTime();
+            setSelectedDate(curDate);
+        }
+    };
+
+
+    private void setSelectedDate(Date curDate) {
+        Selected_date = curDate;
+
+        String selectedDateStr = dateFormat.format(curDate);
+        Date_edit.setText(selectedDateStr);
     }
 
     private void initUI(ViewGroup rootView) {
@@ -111,32 +166,5 @@ public class EditView extends Fragment {
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
 
         edit_image.setImageBitmap(originalBm);
-    }
-
-    private void tedPermission() {
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-
-            }
-        };
-
-        TedPermission.with(context)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage("사진 첨부를 위해서 접근 권한이 필요합니다.")
-                .setDeniedMessage("[설정] > [권한] 에서 권한을 허용할 수 있습니다.")
-                .setPermissions(new String [] {
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                })
-                .check();
-
-
     }
 }

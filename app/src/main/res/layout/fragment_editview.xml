@@ -12,15 +12,21 @@
     <!-- svg 처리 하기-->
 
     <Button
+        android:id="@+id/date_edit"
         android:layout_width="350dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="#FFCFDA"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
 
     <ImageView
         android:id="@+id/edit_Image"
         android:background="@drawable/add_pic_button"
         android:layout_marginBottom="20dp"
         android:layout_width="350dp"
-        android:layout_height="180dp"/>
+        android:layout_height="180dp"
+        android:layout_weight="3"/>
 
     <EditText
         android:layout_width="350dp"
@@ -33,7 +39,8 @@
         android:inputType="text"
         android:maxLength="140"
         android:textColor="#929292"
-        android:textColorHint="#929292" />
+        android:textColorHint="#929292"
+        android:layout_weight="3"/>
 
     <Button
         android:id="@+id/edit_saveButton"
@@ -43,6 +50,9 @@
         android:textStyle="bold"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="350dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>
