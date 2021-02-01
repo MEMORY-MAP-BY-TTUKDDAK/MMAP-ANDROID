@@ -8,18 +8,26 @@
     android:gravity="center"
     tools:context=".EditView">
 
+
+    <!-- svg 처리 하기-->
+
+    <Button
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/edit_Image"
+        android:background="@drawable/add_pic_button"
         android:layout_marginBottom="20dp"
         android:layout_width="350dp"
-        android:layout_height="200dp"/>
+        android:layout_height="180dp"/>
 
     <EditText
         android:layout_width="350dp"
         android:layout_height="320dp"
         android:layout_marginBottom="20dp"
-        android:background="#FFFFFF"
-        android:padding="10dp"
+        android:background="@drawable/edge"
+        android:padding="15dp"
         android:gravity="top"
         android:hint="텍스트 작성"
         android:inputType="text"
@@ -33,6 +41,7 @@
         android:text="기록 저장하기"
         android:textSize="15sp"
         android:textStyle="bold"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="350dp"
         android:layout_height="wrap_content"/>
 

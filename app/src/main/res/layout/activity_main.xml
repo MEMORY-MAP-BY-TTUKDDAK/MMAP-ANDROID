@@ -109,6 +109,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/button_login"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="로그인"
             android:textStyle="bold"
             android:textColor="#23648C"
