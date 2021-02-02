@@ -2,6 +2,7 @@ package org.techtown.memory_map;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.MediaActionSound;
 import android.net.Uri;
 import android.nfc.Tag;
@@ -26,7 +29,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -37,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -50,6 +56,9 @@ public class EditView extends Fragment {
 
     Button Date_edit;
     Date Selected_date;
+    EditText address_input;
+    TextView address_result;
+    Button save_button;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -91,6 +100,40 @@ public class EditView extends Fragment {
             }
         });
 
+        address_input = rootView.findViewById(R.id.location_input);
+        save_button = rootView.findViewById(R.id.edit_saveButton);
+        address_result = rootView.findViewById(R.id.location_result);
+        final Geocoder geocoder = new Geocoder(this.getContext());
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Address> list = null;
+
+                String str = address_input.getText().toString();
+                try {
+                    list = geocoder.getFromLocationName
+                            (str,
+                                    10);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
+                }
+
+                if (list != null) {
+                    if (list.size() == 0) {
+                        address_result.setText("올바른 주소를 입력해주세요. ");
+                    } else {
+                        Address address = list.get(0);
+                        double lat = address.getLatitude();
+                        double lon = address.getLongitude();
+                        String sss = String.format("위도 : %f, 경도 : %f", lat, lon);
+                        address_result.setText(sss);
+                    }
+                }
+            }
+        });
+
+
         return rootView;
     }
 
@@ -111,7 +154,7 @@ public class EditView extends Fragment {
         int curMonth = calendar.get(Calendar.MONTH);
         int curDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(getContext(),  birthDateSetListener,  curYear, curMonth, curDay);
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), R.style.DialogTheme, birthDateSetListener,  curYear, curMonth, curDay);
         dialog.show();
     }
 

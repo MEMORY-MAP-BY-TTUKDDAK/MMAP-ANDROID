@@ -7,5 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="DialogTheme" parent = "Theme.AppCompat.Light.Dialog">
+        <item name ="colorAccent">#4492da</item>
+    </style>
 
 </resources>
