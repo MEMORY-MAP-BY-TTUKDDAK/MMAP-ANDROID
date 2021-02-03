@@ -7,21 +7,212 @@
     tools:context=".SettingView">
 
     <RelativeLayout
-        android:layout_width="350dp"
-        android:layout_height="600dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
-
-    <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/Setting_background"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:track="@drawable/switch_track_selector"
-        android:thumb="@drawable/switch_thumb"
-        android:layout_marginStart="30dp"
+        android:layout_height="500dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="14dp" />
-    </RelativeLayout>
+        android:layout_marginRight="30dp"
+        android:background="@drawable/setting"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true">
 
+        <TextView
+            android:id="@+id/setting_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="24sp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#333">
+        </TextView>
+
+        <RelativeLayout
+            android:id="@+id/language_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/setting_text"
+            android:layout_alignLeft="@id/setting_text"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="35dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Language"
+                android:textColor="#929292"
+                android:textSize="24sp"></TextView>
+
+            <TextView
+                android:id="@+id/spinner_choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/spinner_language"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:text="한국어"
+                android:textColor="#929292"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinner_language"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="-11dp"></Spinner>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5px"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/language_layout"
+            android:layout_marginLeft="-3dp"
+            android:layout_marginRight="-10dp"
+            android:layout_alignLeft="@id/setting_text"
+            android:layout_alignRight="@id/language_layout"
+            android:background="#929292">
+        </View>
+
+        <RelativeLayout
+            android:id="@+id/notification_layout"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@id/setting_text"
+            android:layout_marginRight="40dp"
+            android:layout_below="@id/language_layout">
+
+            <TextView
+                android:id="@+id/notification_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Notification"
+                android:textColor="#929292"
+                android:textSize = "24sp"></TextView>
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_track_selector" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5px"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="-3dp"
+            android:layout_marginRight="-10dp"
+            android:layout_below="@id/notification_layout"
+            android:layout_alignLeft="@id/notification_layout"
+            android:layout_alignRight="@id/notification_layout"
+            android:background="#929292">
+        </View>
+
+        <RelativeLayout
+            android:id="@+id/sign_out_layout"
+            android:layout_width="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notification_layout"
+            android:layout_alignLeft="@id/notification_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="이 기기에서 로그아웃"
+                android:textColor="#929292"
+                android:textSize="24sp">
+            </TextView>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5px"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="-3dp"
+            android:layout_marginRight="-10dp"
+            android:layout_below="@id/sign_out_layout"
+            android:layout_alignLeft="@id/sign_out_layout"
+            android:layout_alignRight="@id/sign_out_layout"
+            android:background="#929292">
+        </View>
+
+        <RelativeLayout
+            android:id="@+id/delete_account_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/sign_out_layout"
+            android:layout_alignLeft="@id/sign_out_layout"
+            android:layout_alignRight="@id/sign_out_layout">
+            <TextView
+                android:id="@+id/delete_account_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="계정 삭제"
+                android:textColor="#929292"
+                android:textSize="24sp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delete_account_text"
+                android:layout_marginTop="3dp"
+                android:text="주의 : 삭제 시 계정 복구가 불가능합니다. "
+                android:textColor="#dc143c"
+                android:textSize="12sp">
+            </TextView>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5px"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="-3dp"
+            android:layout_marginRight="-10dp"
+            android:layout_below="@id/delete_account_layout"
+            android:layout_alignLeft="@id/delete_account_layout"
+            android:layout_alignRight="@id/delete_account_layout"
+            android:background="#929292">
+        </View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/developers"
+            android:text="Developers"
+            android:layout_below="@id/delete_account_layout"
+            android:textColor="#333"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_alignLeft="@id/delete_account_layout"
+            android:layout_marginTop="40dp">
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Team DDUCKDDACK"
+            android:layout_below="@id/developers"
+            android:layout_marginTop="7dp"
+            android:textColor="#333"
+            android:layout_alignLeft="@id/delete_account_layout">
+        </TextView>
+
+    </RelativeLayout>
 </RelativeLayout>
