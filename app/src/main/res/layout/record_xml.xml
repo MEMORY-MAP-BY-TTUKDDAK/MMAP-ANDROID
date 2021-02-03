@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -42,6 +43,7 @@
                 android:layout_margin="5dp">
 
                 <TextView
+                    android:id="@+id/location_record"
                     android:text="Log Angeles, US"
                     android:paddingLeft="5dp"
                     android:textColor="#000000"
@@ -51,6 +53,7 @@
                     android:layout_height="25dp"/>
 
                 <TextView
+                    android:id="@+id/contents_record"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
