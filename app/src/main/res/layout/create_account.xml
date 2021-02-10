@@ -44,6 +44,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="380dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/personal_info"
         android:layout_below="@id/header_oval">
 
@@ -213,7 +214,7 @@
             android:layout_below="@id/input_email"
             android:layout_marginTop="32dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/button_login"
+            android:background="@drawable/before_button_click"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/create"
             android:textColor="#23648C"

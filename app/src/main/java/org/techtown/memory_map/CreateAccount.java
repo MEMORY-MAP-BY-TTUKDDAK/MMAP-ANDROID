@@ -2,6 +2,7 @@ package org.techtown.memory_map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,20 @@ public class CreateAccount extends AppCompatActivity {
         pw_input = findViewById(R.id.input_pw);
         username_input = findViewById(R.id.input_username);
         email_input = findViewById(R.id.input_email);
+
+        button.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    button.setBackgroundResource(R.drawable.button_login);
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    button.setBackgroundResource(R.drawable.before_button_click);
+                }
+                return false;
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
