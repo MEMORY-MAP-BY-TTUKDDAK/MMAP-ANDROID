@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#00FFFFFF">
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -12,19 +14,20 @@
         android:orientation="vertical">
 
         <ImageView
-            app:srcCompat="@drawable/ic_edit"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="right"
             android:layout_width="20dp"
-            android:layout_height="20dp"/>
+            android:layout_height="20dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_edit" />
 
         <LinearLayout
-            android:background="@drawable/record_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="horizontal">
+            android:background="@drawable/record_background"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/list_ImageView"
@@ -36,29 +39,28 @@
                 android:background="#B3C4C4C4" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:layout_margin="5dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/location_record"
-                    android:text="Log Angeles, US"
-                    android:paddingLeft="5dp"
-                    android:textColor="#000000"
-                    android:textSize="15sp"
-                    android:background="#66C4C4C4"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"/>
+                    android:layout_height="25dp"
+                    android:paddingLeft="5dp"
+                    android:text="Location"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/contents_record"
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="110dp"
+                    android:layout_marginTop="5dp"
                     android:background="#66C4C4C4"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000" />
 
             </LinearLayout>
 

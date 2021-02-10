@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView=findViewById(R.id.no_account_yet);
-        idInput=findViewById(R.id.input_id_Main);
-        pwInput=findViewById(R.id.input_pw_Main);
+        textView = findViewById(R.id.no_account_yet);
+        idInput = findViewById(R.id.input_id_Main);
+        pwInput = findViewById(R.id.input_pw_Main);
         sign_in_button = findViewById(R.id.signInBtn_Main);
         textView.setOnClickListener(new View.OnClickListener() {
 
