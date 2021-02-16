@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CreateAccount.class);
                 startActivityForResult(intent, REQUEST_CODE_CREATE_ACCOUNT);
+            }
+        });
+
+        sign_in_button.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    sign_in_button.setBackgroundResource(R.drawable.button_login);
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    sign_in_button.setBackgroundResource(R.drawable.before_button_click);
+                }
+                return false;
             }
         });
 
