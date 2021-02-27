@@ -71,7 +71,7 @@ public class CreateAccount extends AppCompatActivity {
                     email = email_input.getText().toString();
                     startJoin(new JoinData(id,pw,username,email));
                     Intent resultIntent = new Intent();
-                    finish();
+                    //finish();
                 }
             }
         });
@@ -86,7 +86,7 @@ public class CreateAccount extends AppCompatActivity {
                 JoinResponse result = response.body();
                 Toast.makeText(CreateAccount.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
-                if(result.getCode() == 200) {
+                if(result.getStatus() == 200) {
                     finish();
                 }
             }

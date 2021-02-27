@@ -16,11 +16,13 @@ public class JoinResponse {
     private String accessToken;
     private int userIdx;
 
+    public int getStatus() {
+        return status;
+    }
+
     public String getMessage() {
         return message;
     }
 
-    public int getCode() {
-        return status;
-    }
+
 }
