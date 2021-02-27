@@ -9,16 +9,16 @@ public class JoinData {
     @SerializedName("password")
     private String password;
 
-    @SerializedName("nickname")
-    private String nickname;
+    @SerializedName("name")
+    private String name;
 
     @SerializedName("email")
     private String email;
 
-    public JoinData(String id, String password, String nickname, String email) {
+    public JoinData(String id, String password, String name, String email) {
         this.id=id;
         this.password=password;
-        this.nickname=nickname;
+        this.name=name;
         this.email=email;
     }
 }

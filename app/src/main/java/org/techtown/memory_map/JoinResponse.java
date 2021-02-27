@@ -3,6 +3,7 @@ package org.techtown.memory_map;
 import com.google.gson.annotations.SerializedName;
 
 public class JoinResponse {
+
     @SerializedName("status")
     private int status;
 
@@ -11,10 +12,14 @@ public class JoinResponse {
 
     @SerializedName("message")
     private String message;
-
+/*
     @SerializedName("data")
-    private String accessToken;
-    private int userIdx;
+    private Data data;*/
+
+    public class Data{
+        @SerializedName("userId")
+        private int userId;
+    }
 
     public int getStatus() {
         return status;
@@ -24,5 +29,8 @@ public class JoinResponse {
         return message;
     }
 
-
 }
+
+
+
+
