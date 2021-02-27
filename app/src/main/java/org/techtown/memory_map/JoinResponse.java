@@ -12,9 +12,6 @@ public class JoinResponse {
 
     @SerializedName("message")
     private String message;
-/*
-    @SerializedName("data")
-    private Data data;*/
 
     public class Data{
         @SerializedName("userId")
