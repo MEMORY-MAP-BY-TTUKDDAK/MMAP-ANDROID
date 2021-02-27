@@ -9,4 +9,7 @@ public interface ServiceApi {
     @Headers({"Content-Type: application/json"})
     @POST("/user/signup")
     Call<JoinResponse> userJoin(@Body JoinData data);
+
+    @POST("/user/signin")
+    Call<LoginResponse> userLogin(@Body LoginData data);
 }

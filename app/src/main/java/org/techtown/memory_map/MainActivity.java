@@ -1,10 +1,14 @@
 package org.techtown.memory_map;
 
 import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +21,12 @@ public class MainActivity extends AppCompatActivity {
     EditText idInput;
     EditText pwInput;
     Button sign_in_button;
+
+    private ServiceApi service;
+
     public static final int REQUEST_CODE_CREATE_ACCOUNT = 101;
     public static final int REQUEST_CODE_MENU = 201;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_CREATE_ACCOUNT);
             }
         });
+
+        service = RetrofitClient.getClient().create(ServiceApi.class);
 
         sign_in_button.setOnTouchListener(new View.OnTouchListener()
         {
@@ -56,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if((idInput.length() == 0) || (pwInput.length() == 0)){
                     Toast.makeText(getApplicationContext(), "must enter all information",Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
+                    startLogin(new LoginData(idInput.getText().toString(), pwInput.getText().toString()));
+
                     Intent intent = new Intent(getApplicationContext(), ChooseMenu.class);
                     startActivityForResult(intent, REQUEST_CODE_MENU);
                 }
@@ -64,4 +76,25 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
+    private void startLogin(LoginData data) {
+        service.userLogin(data).enqueue(new Callback<LoginResponse>() {
+
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse result = response.body();
+                Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+
+                if (result.getStatus() == 200) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "로그인 에러 발생", Toast.LENGTH_SHORT).show();
+                Log.e("로그인 에러", t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
 }
