@@ -53,6 +53,7 @@ public class EditView extends Fragment {
     private static final int GALLERY_REQUEST_CODE = 301;
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 401;
 
+    private ServiceApi serviceApi;
 
     Button Date_edit;
     Date Selected_date;
@@ -78,6 +79,8 @@ public class EditView extends Fragment {
         setSelectedDate(curDate);
 
         context = container.getContext();
+
+        serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {

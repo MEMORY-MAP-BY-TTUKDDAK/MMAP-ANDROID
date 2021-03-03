@@ -19,6 +19,8 @@ public class RecordView extends Fragment {
 
     Context context;
 
+    private ServiceApi serviceApi;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_recordview, container, false);
@@ -37,11 +39,16 @@ public class RecordView extends Fragment {
 
         adapter = new RecordAdapter();
 
+        serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
+
+        /*
         adapter.addItem(new Record(0, "Los Angeles, US", "", "", "미국", "capture1.jpg", "2월 1일"));
 
         adapter.addItem(new Record(1, "Seoul, South Korea", "", "", "한국", "capture1.jpg", "2월 3일"));
 
         adapter.addItem(new Record(2, "Tokyo, Japan", "", "", "일본", "capture1.jpg", "2월 5일"));
+
+         */
 
         recyclerView.setAdapter(adapter);
 
@@ -53,4 +60,5 @@ public class RecordView extends Fragment {
             }
         });
     }
+
 }

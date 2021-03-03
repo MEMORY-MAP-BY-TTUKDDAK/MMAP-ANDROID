@@ -16,4 +16,12 @@ public interface ServiceApi {
 
     @GET("/map/marker/:userIdx")
     Call<MapResponse> userMap(@Body MapData data);
+
+	@GET("/list")
+    Call<RecordResponse> getData(@Body Record record);
+
+    /*
+    @POST("/post")
+    Call<EditResponse> ;
+    */
 }
