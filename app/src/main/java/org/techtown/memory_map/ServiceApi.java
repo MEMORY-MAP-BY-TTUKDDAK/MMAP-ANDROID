@@ -18,7 +18,8 @@ public interface ServiceApi {
     Call<MapResponse> userMap(@Body MapData data);
 
 	@GET("/list")
-    Call<RecordResponse> getData(@Body Record record);
+    Call<RecordResponse> getData();
+    //Call<RecordResponse> getData(@Body RecordResponse.Data data);
 
     /*
     @POST("/post")

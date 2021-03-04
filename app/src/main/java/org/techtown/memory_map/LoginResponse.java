@@ -13,8 +13,11 @@ public class LoginResponse {
     private String message;
 
     public class Data{
-        @SerializedName("userId")
-        private String userId;
+        @SerializedName("accessToken")
+        private String accessToken;
+
+        @SerializedName("userIdx")
+        private String userIdx;
     }
 
     public int getStatus() { return status; }
