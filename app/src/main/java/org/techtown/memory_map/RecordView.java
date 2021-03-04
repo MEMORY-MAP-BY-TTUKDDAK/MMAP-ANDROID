@@ -5,7 +5,11 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +24,7 @@ public class RecordView extends Fragment {
     Context context;
 
     private ServiceApi serviceApi;
-
+    private RecordResponse dataList;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_recordview, container, false);
@@ -40,6 +44,26 @@ public class RecordView extends Fragment {
         adapter = new RecordAdapter();
 
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
+
+        Call<RecordResponse> call = serviceApi.getData();
+
+        call.enqueue(new Callback<RecordResponse>() {
+            @Override
+            public void onResponse(Call<RecordResponse> call, Response<RecordResponse> response) {
+                dataList = response.body();
+
+                //Toast.makeText(RecordView.this, dataList.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dataList.getStatus() == 200) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RecordResponse> call, Throwable t) {
+                Log.e("기록 불러오기 실패", t.getMessage());
+                t.printStackTrace();
+            }
+        });
 
         /*
         adapter.addItem(new Record(0, "Los Angeles, US", "", "", "미국", "capture1.jpg", "2월 1일"));

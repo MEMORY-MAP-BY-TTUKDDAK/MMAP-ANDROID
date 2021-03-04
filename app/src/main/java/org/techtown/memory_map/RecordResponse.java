@@ -2,6 +2,8 @@ package org.techtown.memory_map;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class RecordResponse {
     @SerializedName("status")
     private int status;
@@ -11,6 +13,9 @@ public class RecordResponse {
 
     @SerializedName("message")
     private String message;
+
+    @SerializedName("data")
+    private List<Data> body;
 
     public class Data{
         @SerializedName("userIdx")
