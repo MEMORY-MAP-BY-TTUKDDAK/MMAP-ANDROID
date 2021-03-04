@@ -12,16 +12,10 @@ public class LoginResponse {
     @SerializedName("message")
     private String message;
 
-    public class Data{
-        @SerializedName("accessToken")
-        private String accessToken;
-
-        @SerializedName("userIdx")
-        private String userIdx;
-    }
+    @SerializedName("data")
+    public LoginTokenData data;
 
     public int getStatus() { return status; }
 
     public String getMessage() { return message; }
-
 }
