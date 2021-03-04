@@ -1,4 +1,5 @@
 package org.techtown.memory_map;
+import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
@@ -6,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,10 +28,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
 
     MapView mapView;
     View rootView;
+    Context context;
     private ServiceApi serviceApi;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_mapview, container, false);
+        context = container.getContext();
         mapView = (MapView) rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -67,12 +71,14 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
 
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
+                MapResponse mapResponse = response.body();
+                Toast.makeText(context, mapResponse.getMessage(),Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onFailure(Call<MapResponse> call, Throwable t) {
-
+                Toast.makeText(context, "map load fail", Toast.LENGTH_SHORT).show();
             }
         });
     }

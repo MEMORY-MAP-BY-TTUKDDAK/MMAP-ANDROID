@@ -111,6 +111,7 @@ public class EditView extends Fragment {
             @Override
             public void onClick(View v) {
                 List<Address> list = null;
+                List<Address> citylist = null;
 
                 String str = address_input.getText().toString();
                 try {
@@ -129,6 +130,24 @@ public class EditView extends Fragment {
                         Address address = list.get(0);
                         double lat = address.getLatitude();
                         double lon = address.getLongitude();
+
+                        try{
+                            citylist = geocoder.getFromLocation(
+                                    lat,
+                                    lon,
+                                    10
+                            );
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
+                        if(citylist != null) {
+                            if(list.size() == 0){
+                                Log.e("reverseGeocoding", "해당 도시 없음");
+                            }else{
+                                String city = citylist.get(0).toString();
+                                Toast.makeText(context, city, Toast.LENGTH_LONG).show();
+                            }
+                        }
                         String sss = String.format("위도 : %f, 경도 : %f", lat, lon);
                         address_result.setText(sss);
                     }

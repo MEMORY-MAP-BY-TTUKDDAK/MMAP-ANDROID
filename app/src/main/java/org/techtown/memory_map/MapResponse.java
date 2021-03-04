@@ -12,17 +12,14 @@ public class MapResponse {
     @SerializedName("message")
     private String message;
 
-    public class Data{
-        @SerializedName("lattitudde")
-        private int latitude;
-        @SerializedName("longtitude")
-        private int longitude;
+    @SerializedName("data")
+    private MarkerData data;
 
-        public int getLatitude(){
-            return latitude;
-        }
-        public int getLongitude(){
-            return longitude;
-        }
+    public String getMessage() {
+        return message;
+    }
+
+    public MarkerData getData() {
+        return data;
     }
 }
