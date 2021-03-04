@@ -17,7 +17,7 @@ public class MapResponse {
         private int latitude;
         @SerializedName("longtitude")
         private int longitude;
-        
+
         public int getLatitude(){
             return latitude;
         }
@@ -25,5 +25,4 @@ public class MapResponse {
             return longitude;
         }
     }
-
 }

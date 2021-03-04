@@ -14,8 +14,10 @@ public class JoinResponse {
     private String message;
 
     public class Data{
-        @SerializedName("userId")
-        private int userId;
+        @SerializedName("accessToken")
+        private String accessToken;
+        @SerializedName("userIdx")
+        private int userIdx;
     }
 
     public int getStatus() {
