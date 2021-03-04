@@ -20,6 +20,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +33,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     View rootView;
     Context context;
     private ServiceApi serviceApi;
+    List MarkerList = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_mapview, container, false);
@@ -72,6 +76,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
                 MapResponse mapResponse = response.body();
+                MarkerList = mapResponse.getData();
                 Toast.makeText(context, mapResponse.getMessage(),Toast.LENGTH_SHORT).show();
 
             }

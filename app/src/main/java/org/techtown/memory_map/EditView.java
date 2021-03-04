@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -44,7 +45,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
+import android.content.SharedPreferences;
 
 public class EditView extends Fragment {
 
@@ -60,6 +67,8 @@ public class EditView extends Fragment {
     EditText address_input;
     TextView address_result;
     Button save_button;
+    EditText text_input;
+    String token;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -79,9 +88,13 @@ public class EditView extends Fragment {
         setSelectedDate(curDate);
 
         context = container.getContext();
-
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
+        //sharedPreference 해결해야함
+        //제발
+        //제발
+        SharedPreferences sharedPreferences = context.getSharedPreferences("login", MODE_PRIVATE);
+        token = sharedPreferences.getString("login","");
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
@@ -103,10 +116,12 @@ public class EditView extends Fragment {
             }
         });
 
+        text_input =rootView.findViewById(R.id.text_input);
         address_input = rootView.findViewById(R.id.location_input);
         save_button = rootView.findViewById(R.id.edit_saveButton);
         address_result = rootView.findViewById(R.id.location_result);
         final Geocoder geocoder = new Geocoder(this.getContext());
+
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +139,7 @@ public class EditView extends Fragment {
                 }
 
                 if (list != null) {
+                    String city = "";
                     if (list.size() == 0) {
                         address_result.setText("올바른 주소를 입력해주세요. ");
                     } else {
@@ -144,12 +160,16 @@ public class EditView extends Fragment {
                             if(list.size() == 0){
                                 Log.e("reverseGeocoding", "해당 도시 없음");
                             }else{
-                                String city = citylist.get(0).toString();
+                                city = citylist.get(0).toString();
                                 Toast.makeText(context, city, Toast.LENGTH_LONG).show();
                             }
                         }
                         String sss = String.format("위도 : %f, 경도 : %f", lat, lon);
                         address_result.setText(sss);
+                        StartEdit(city, city, text_input.getText(), lat, lon, userIdx);
+                        // 위에 임시로 city city넣었는데 역지오코딩 결과 보고 몇번째 인덱스가 국가고 도시인지
+                        //찾아가지고 첫번째 인자에 도시, 두번째 인자에 국가로 수정(이건 테스트해보고 바꿔야함)
+                        //userIdx 받는 방법좀...ㅠㅠ
                     }
                 }
             }
@@ -157,6 +177,24 @@ public class EditView extends Fragment {
 
 
         return rootView;
+    }
+
+    private void StartEdit(EditData editData) {
+        serviceApi.userEdit(token, editData).enqueue(new Callback<EditResponse>() {
+            @Override
+            public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
+                EditResponse result = response.body();
+                if(result.getStatus() == 200){
+                    Toast.makeText(context,"저장이 완료되었습니다.",Toast.LENGTH_SHORT);
+                    //여기다가 edit text 등 초기화하는 코드 추가할 것
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EditResponse> call, Throwable t) {
+                Toast.makeText(context, "작성에러",Toast.LENGTH_SHORT);
+            }
+        });
     }
 
     private void showDateDialog() {

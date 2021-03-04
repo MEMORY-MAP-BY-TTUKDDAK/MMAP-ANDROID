@@ -1,0 +1,32 @@
+package org.techtown.memory_map;
+
+import com.google.gson.annotations.SerializedName;
+
+public class EditData {
+    @SerializedName("city")
+    private String city;
+
+    @SerializedName("country")
+    private String country;
+
+    @SerializedName("text")
+    private String text;
+
+    @SerializedName("lattitude")
+    private double latitude;
+
+    @SerializedName("longtitude")
+    private double longitude;
+
+    @SerializedName("userIdx")
+    private int userIdx;
+
+    public EditData(String city, String country, String text, double latitude, double longitude, int userIdx) {
+        this.city = city;
+        this.country = country;
+        this.text = text;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.userIdx = userIdx;
+    }
+}

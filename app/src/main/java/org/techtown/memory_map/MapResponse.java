@@ -2,6 +2,8 @@ package org.techtown.memory_map;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class MapResponse {
     @SerializedName("status")
     private int status;
@@ -13,13 +15,13 @@ public class MapResponse {
     private String message;
 
     @SerializedName("data")
-    private MarkerData data;
+    private List<MarkerData> data;
 
     public String getMessage() {
         return message;
     }
 
-    public MarkerData getData() {
+    public List<MarkerData> getData() {
         return data;
     }
 }
