@@ -1,6 +1,73 @@
 package org.techtown.memory_map;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Record {
+
+    @SerializedName("city")
+    private String city;
+
+    @SerializedName("country")
+    private String country;
+
+    @SerializedName("text")
+    private String text;
+
+    @SerializedName("img")
+    private String img;
+
+    @SerializedName("user_userIdx")
+    private int user_userIdx;
+
+    public Record(String city, String country, String text, String img, int user_userIdx) {
+        this.city = city;
+        this.country = country;
+        this.text = text;
+        this.img = img;
+        this.user_userIdx = user_userIdx;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public int getUser_userIdx() {
+        return user_userIdx;
+    }
+
+    public void setUser_userIdx(int user_userIdx) {
+        this.user_userIdx = user_userIdx;
+    }
+
+    /*
     int _id;
     String address;
     String locationX;
@@ -74,6 +141,7 @@ public class Record {
     public void setCreateDateStr(String createDateStr) {
         this.createDateStr = createDateStr;
     }
+     */
 }
 
 

@@ -15,8 +15,10 @@ public class RecordResponse {
     private String message;
 
     @SerializedName("data")
-    private List<Data> body;
+    private List<Record> body;
 
+
+    /*
     public class Data{
         @SerializedName("userIdx")
         private int userIdx;
@@ -33,6 +35,7 @@ public class RecordResponse {
         @SerializedName("img")
         private String img;
     }
+    */
 
     public int getStatus() { return status; }
 

@@ -80,7 +80,7 @@ public class RecordView extends Fragment {
             @Override
             public void onItemClick(RecordAdapter.ViewHolder holder, View view, int position) {
                 Record item = adapter.getItem(position);
-                Toast.makeText(getContext(), "아이템 선택됨: " + item.getContents(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "아이템 선택됨: " + item.getText(), Toast.LENGTH_LONG).show();
             }
         });
     }
