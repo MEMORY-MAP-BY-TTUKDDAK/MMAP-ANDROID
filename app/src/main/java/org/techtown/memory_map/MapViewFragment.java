@@ -43,6 +43,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         mapView = (MapView) rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
         return rootView;
     }
 
@@ -72,7 +73,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
 
         //2021.03.04임시로 짜놓은 코드
         startMap();
-        for(int i=0; i<MarkerList.size();i++){
+        for(int i=0; i<MarkerList.size(); i++){
             MarkerOptions marker = new MarkerOptions();
             markerData = (MarkerData)MarkerList.get(i);
             latLng = new LatLng(markerData.getLatitude(), markerData.getLongitude());
