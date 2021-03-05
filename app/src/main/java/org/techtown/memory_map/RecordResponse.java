@@ -40,4 +40,6 @@ public class RecordResponse {
     public int getStatus() { return status; }
 
     public String getMessage() { return message; }
+
+    public List<Record> getBody() { return body; }
 }

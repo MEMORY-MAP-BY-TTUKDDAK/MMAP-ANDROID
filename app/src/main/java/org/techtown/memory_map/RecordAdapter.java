@@ -1,5 +1,6 @@
 package org.techtown.memory_map;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder> implements OnRecordItemClickListener {
     //ArrayList <Record> items = new ArrayList<Record>();
+    private Context c;
     private List<Record> items;
 
     OnRecordItemClickListener listener;
+
+    public RecordAdapter(Context c, List<Record> items) {
+        this.c = c;
+        this.items = items;
+    }
 
 
     @NonNull
@@ -109,7 +116,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                     }
                 }
             });
-
         }
 
 

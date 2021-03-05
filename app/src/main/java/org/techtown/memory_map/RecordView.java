@@ -15,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class RecordView extends Fragment {
 
@@ -25,6 +28,7 @@ public class RecordView extends Fragment {
 
     private ServiceApi serviceApi;
     private RecordResponse dataList;
+    private List<Record> data;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_recordview, container, false);
@@ -41,7 +45,8 @@ public class RecordView extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecordAdapter();
+        //adapter = new RecordAdapter();
+        data = new ArrayList<>();
 
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
@@ -54,7 +59,11 @@ public class RecordView extends Fragment {
 
                 //Toast.makeText(RecordView.this, dataList.getMessage(), Toast.LENGTH_SHORT).show();
                 if (dataList.getStatus() == 200) {
+                    data = dataList.getBody();
 
+                    adapter = new RecordAdapter(getContext(), data);
+
+                    recyclerView.setAdapter(adapter);
                 }
             }
 
@@ -72,9 +81,9 @@ public class RecordView extends Fragment {
 
         adapter.addItem(new Record(2, "Tokyo, Japan", "", "", "일본", "capture1.jpg", "2월 5일"));
 
+        recyclerView.setAdapter(adapter);
          */
 
-        recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new OnRecordItemClickListener() {
             @Override
