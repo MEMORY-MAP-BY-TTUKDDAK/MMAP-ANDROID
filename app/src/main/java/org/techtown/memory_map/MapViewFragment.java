@@ -34,6 +34,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     Context context;
     private ServiceApi serviceApi;
     List MarkerList = new ArrayList<>();
+    MarkerData markerData;
+    LatLng latLng;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_mapview, container, false);
@@ -67,7 +69,16 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         googleMap.animateCamera(cameraUpdate);
         googleMap.addMarker(new MarkerOptions().position(curPoint).title("temporary"));*/
         startMap(new MapData("aa", "aa"));
-        MarkerOptions marker = new MarkerOptions();
+
+        //2021.03.04임시로 짜놓은 코드
+        for(int i=0; i<MarkerList.size();i++){
+            MarkerOptions marker = new MarkerOptions();
+            markerData = (MarkerData)MarkerList.get(i);
+            latLng = new LatLng(markerData.getLatitude(), markerData.getLongitude());
+            marker.position(latLng);
+            googleMap.addMarker(marker);
+        }
+        //여기까지..
     }
 
     private void startMap(MapData data){
@@ -78,7 +89,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
                 MapResponse mapResponse = response.body();
                 MarkerList = mapResponse.getData();
                 Toast.makeText(context, mapResponse.getMessage(),Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
