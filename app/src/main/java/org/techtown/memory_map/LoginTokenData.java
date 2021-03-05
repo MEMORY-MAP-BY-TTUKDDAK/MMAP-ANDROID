@@ -8,8 +8,8 @@ public class LoginTokenData {
     private String accessToken;
 
     @SerializedName("userIdx")
-    private String userIdx;
+    private int userIdx;
 
     public String getAccessToken() { return accessToken; }
-
+    public int getUserIdx() {return userIdx;}
 }

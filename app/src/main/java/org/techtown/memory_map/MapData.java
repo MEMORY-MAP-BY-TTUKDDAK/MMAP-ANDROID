@@ -1,7 +1,7 @@
 package org.techtown.memory_map;
 
 import com.google.gson.annotations.SerializedName;
-
+/*
 public class MapData {
     @SerializedName("id")
     private String id;
@@ -14,4 +14,4 @@ public class MapData {
         this.pw = pw;
     }
 
-}
+}*/

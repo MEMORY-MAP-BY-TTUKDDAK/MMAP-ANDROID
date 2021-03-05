@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", result.data.getAccessToken());
+                    editor.putInt("userIdx", result.data.getUserIdx());
                     editor.commit();
                 }
             }

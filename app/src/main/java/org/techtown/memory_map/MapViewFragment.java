@@ -68,9 +68,10 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(curPoint, 5);
         googleMap.animateCamera(cameraUpdate);
         googleMap.addMarker(new MarkerOptions().position(curPoint).title("temporary"));*/
-        startMap(new MapData("aa", "aa"));
+       // startMap(new MapData("aa", "aa"));
 
         //2021.03.04임시로 짜놓은 코드
+        startMap();
         for(int i=0; i<MarkerList.size();i++){
             MarkerOptions marker = new MarkerOptions();
             markerData = (MarkerData)MarkerList.get(i);
@@ -81,8 +82,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         //여기까지..
     }
 
-    private void startMap(MapData data){
-        serviceApi.userMap(data).enqueue(new Callback<MapResponse>(){
+    private void startMap(){
+        serviceApi.userMap().enqueue(new Callback<MapResponse>(){
 
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {

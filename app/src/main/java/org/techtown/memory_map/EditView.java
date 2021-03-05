@@ -69,6 +69,7 @@ public class EditView extends Fragment {
     Button save_button;
     EditText text_input;
     String token;
+    int userIdx;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -94,7 +95,8 @@ public class EditView extends Fragment {
         //제발
         //제발
         SharedPreferences sharedPreferences = context.getSharedPreferences("login", MODE_PRIVATE);
-        token = sharedPreferences.getString("login","");
+        token = sharedPreferences.getString("token","");
+        userIdx = sharedPreferences.getInt("userIdx", -1);
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
@@ -166,7 +168,7 @@ public class EditView extends Fragment {
                         }
                         String sss = String.format("위도 : %f, 경도 : %f", lat, lon);
                         address_result.setText(sss);
-                        StartEdit(city, city, text_input.getText(), lat, lon, userIdx);
+                        StartEdit(new EditData(city, city, text_input.getText().toString(), lat, lon, userIdx));
                         // 위에 임시로 city city넣었는데 역지오코딩 결과 보고 몇번째 인덱스가 국가고 도시인지
                         //찾아가지고 첫번째 인자에 도시, 두번째 인자에 국가로 수정(이건 테스트해보고 바꿔야함)
                         //userIdx 받는 방법좀...ㅠㅠ

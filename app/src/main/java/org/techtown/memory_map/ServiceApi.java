@@ -17,11 +17,14 @@ public interface ServiceApi {
 
     @POST("/user/signin")
     Call<LoginResponse> userLogin(@Body LoginData data);
+/*
+    @GET("/map/:userIdx")
+    Call<MapResponse> userMap(@Body MapData data);*/
 
     @GET("/map/:userIdx")
-    Call<MapResponse> userMap(@Body MapData data);
+    Call<MapResponse> userMap();
 
-	@GET("/list")
+	@GET("/list/:userIdx")
     Call<RecordResponse> getData();
     //Call<RecordResponse> getData(@Body RecordResponse.Data data);
 
