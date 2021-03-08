@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     startLogin(new LoginData(idInput.getText().toString(), pwInput.getText().toString()));
 
-                    Intent intent = new Intent(getApplicationContext(), ChooseMenu.class);
-                    startActivityForResult(intent, REQUEST_CODE_MENU);
                 }
             }
         }));
@@ -93,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("token", result.data.getAccessToken());
                     editor.putInt("userIdx", result.data.getUserIdx());
                     editor.commit();
+                    Intent intent = new Intent(getApplicationContext(), ChooseMenu.class);
+                    startActivityForResult(intent, REQUEST_CODE_MENU);
                 }
             }
 

@@ -1,5 +1,6 @@
 package org.techtown.memory_map;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
@@ -27,15 +28,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MapViewFragment extends Fragment implements OnMapReadyCallback{
 
     MapView mapView;
     View rootView;
     Context context;
     private ServiceApi serviceApi;
-    List MarkerList = new ArrayList<>();
+    List<MarkerData> MarkerList = new ArrayList<>();
     MarkerData markerData;
     LatLng latLng;
+    int userIdx;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_mapview, container, false);
@@ -44,6 +48,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("login", MODE_PRIVATE);
+        userIdx = sharedPreferences.getInt("userIdx", -1);
         return rootView;
     }
 
@@ -80,17 +86,25 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             marker.position(latLng);
             googleMap.addMarker(marker);
         }
+
+        LatLng curPoint = new LatLng(35.7, 127);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(curPoint, 5);
+        googleMap.addMarker(new MarkerOptions().position(curPoint).title("temporary"));
         //여기까지..
     }
 
     private void startMap(){
-        serviceApi.userMap().enqueue(new Callback<MapResponse>(){
-
+        serviceApi.userMap(4).enqueue(new Callback<MapResponse>(){
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
                 MapResponse mapResponse = response.body();
-                MarkerList = mapResponse.getData();
-                Toast.makeText(context, mapResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                String temp = response.toString();
+                try{
+                    MarkerList = mapResponse.getData();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                System.out.println(temp);
             }
 
             @Override

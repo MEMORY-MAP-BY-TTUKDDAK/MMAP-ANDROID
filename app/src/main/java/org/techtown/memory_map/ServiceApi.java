@@ -6,6 +6,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -17,12 +19,9 @@ public interface ServiceApi {
 
     @POST("/user/signin")
     Call<LoginResponse> userLogin(@Body LoginData data);
-/*
-    @GET("/map/:userIdx")
-    Call<MapResponse> userMap(@Body MapData data);*/
 
-    @GET("/map/:userIdx")
-    Call<MapResponse> userMap();
+    @GET("/map/{userIdx}")
+    Call<MapResponse> userMap(@Path("userIdx") int userIdx);
 
 	@GET("/list/:userIdx")
     Call<RecordResponse> getData();
