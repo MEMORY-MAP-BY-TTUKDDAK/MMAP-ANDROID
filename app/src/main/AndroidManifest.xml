@@ -28,7 +28,7 @@
         <activity android:name=".ChooseMenu"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="BuildConfig.MAP_KEY"/>
+            android:value="BuildConfig.api.key"/>
         <meta-data
             android:name="BASE_URL"
             android:value="BuildConfig.Server"/>

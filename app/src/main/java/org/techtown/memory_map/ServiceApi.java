@@ -23,8 +23,8 @@ public interface ServiceApi {
     @GET("/map/{userIdx}")
     Call<MapResponse> userMap(@Path("userIdx") int userIdx);
 
-	@GET("/list/:userIdx")
-    Call<RecordResponse> getData();
+	@GET("/list/{userIdx}")
+    Call<RecordResponse> getData(@Path("userIdx") int userIdx);
     //Call<RecordResponse> getData(@Body RecordResponse.Data data);
 
     @POST("/record")

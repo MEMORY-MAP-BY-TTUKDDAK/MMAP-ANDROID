@@ -83,6 +83,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             MarkerOptions marker = new MarkerOptions();
             markerData = (MarkerData)MarkerList.get(i);
             latLng = new LatLng(markerData.getLatitude(), markerData.getLongitude());
+            //System.out.println("위도 : " +markerData.getLatitude() + "경도" + markerData.getLongitude());
+            //System.out.println("마커리스트사이즈 : "+MarkerList.size());
             marker.position(latLng);
             googleMap.addMarker(marker);
         }

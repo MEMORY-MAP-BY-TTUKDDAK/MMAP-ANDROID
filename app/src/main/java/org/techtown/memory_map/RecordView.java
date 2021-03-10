@@ -50,7 +50,7 @@ public class RecordView extends Fragment {
 
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
-        Call<RecordResponse> call = serviceApi.getData();
+        Call<RecordResponse> call = serviceApi.getData(4);
 
         call.enqueue(new Callback<RecordResponse>() {
             @Override

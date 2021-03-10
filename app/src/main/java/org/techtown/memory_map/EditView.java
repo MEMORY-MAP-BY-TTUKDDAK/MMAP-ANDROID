@@ -142,6 +142,7 @@ public class EditView extends Fragment {
 
                 if (list != null) {
                     String city = "";
+                    String country = "";
                     if (list.size() == 0) {
                         address_result.setText("올바른 주소를 입력해주세요. ");
                     } else {
@@ -162,21 +163,17 @@ public class EditView extends Fragment {
                             if(list.size() == 0){
                                 Log.e("reverseGeocoding", "해당 도시 없음");
                             }else{
-                                city = citylist.get(0).toString();
-                                Toast.makeText(context, city, Toast.LENGTH_LONG).show();
+                                city = citylist.get(0).getAdminArea();
+                                country = citylist.get(0).getCountryName();
                             }
                         }
                         String sss = String.format("위도 : %f, 경도 : %f", lat, lon);
                         address_result.setText(sss);
-                        StartEdit(new EditData(city, city, text_input.getText().toString(), lat, lon, userIdx));
-                        // 위에 임시로 city city넣었는데 역지오코딩 결과 보고 몇번째 인덱스가 국가고 도시인지
-                        //찾아가지고 첫번째 인자에 도시, 두번째 인자에 국가로 수정(이건 테스트해보고 바꿔야함)
-                        //userIdx 받는 방법좀...ㅠㅠ
+                        StartEdit(new EditData(city, country, text_input.getText().toString(), lat, lon, userIdx));
                     }
                 }
             }
         });
-
 
         return rootView;
     }
