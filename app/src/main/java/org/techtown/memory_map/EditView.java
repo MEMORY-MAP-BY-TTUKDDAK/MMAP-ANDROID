@@ -183,10 +183,12 @@ public class EditView extends Fragment {
             @Override
             public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
                 EditResponse result = response.body();
+                String temp = response.toString();
                 if(result.getStatus() == 200){
                     Toast.makeText(context,"저장이 완료되었습니다.",Toast.LENGTH_SHORT);
                     //여기다가 edit text 등 초기화하는 코드 추가할 것
                 }
+                System.out.println(temp);
             }
 
             @Override

@@ -1,6 +1,7 @@
 package org.techtown.memory_map;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
@@ -70,29 +71,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this.getActivity());
-        /*
-        LatLng curPoint = new LatLng(35.7, 127);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(curPoint, 5);
-        googleMap.animateCamera(cameraUpdate);
-        googleMap.addMarker(new MarkerOptions().position(curPoint).title("temporary"));*/
-       // startMap(new MapData("aa", "aa"));
-
-        //2021.03.04임시로 짜놓은 코드
         startMap();
         for(int i=0; i<MarkerList.size(); i++){
             MarkerOptions marker = new MarkerOptions();
             markerData = (MarkerData)MarkerList.get(i);
             latLng = new LatLng(markerData.getLatitude(), markerData.getLongitude());
-            //System.out.println("위도 : " +markerData.getLatitude() + "경도" + markerData.getLongitude());
-            //System.out.println("마커리스트사이즈 : "+MarkerList.size());
+            System.out.println("위도 : "+markerData.getLatitude() + "경도 : " + markerData.getLongitude());
             marker.position(latLng);
             googleMap.addMarker(marker);
         }
-
-        LatLng curPoint = new LatLng(35.7, 127);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(curPoint, 5);
-        googleMap.addMarker(new MarkerOptions().position(curPoint).title("temporary"));
-        //여기까지..
     }
 
     private void startMap(){
@@ -100,13 +87,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
                 MapResponse mapResponse = response.body();
-                String temp = response.toString();
                 try{
                     MarkerList = mapResponse.getData();
-                }catch(Exception e){
+                }catch(Exception e) {
                     e.printStackTrace();
                 }
-                System.out.println(temp);
             }
 
             @Override
