@@ -83,7 +83,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
     }
 
     private void startMap(){
-        serviceApi.userMap(4).enqueue(new Callback<MapResponse>(){
+        serviceApi.userMap(userIdx).enqueue(new Callback<MapResponse>(){
             @Override
             public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
                 MapResponse mapResponse = response.body();
