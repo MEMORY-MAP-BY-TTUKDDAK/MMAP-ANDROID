@@ -76,8 +76,9 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback{
             MarkerOptions marker = new MarkerOptions();
             markerData = (MarkerData)MarkerList.get(i);
             latLng = new LatLng(markerData.getLatitude(), markerData.getLongitude());
-            System.out.println("위도 : "+markerData.getLatitude() + "경도 : " + markerData.getLongitude());
             marker.position(latLng);
+            marker.title(markerData.getDate()+"");
+            marker.snippet(markerData.getCountry()+'\n'+markerData.getCity());
             googleMap.addMarker(marker);
         }
     }
