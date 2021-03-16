@@ -24,7 +24,11 @@ public class EditData {
     @SerializedName("date")
     private int date;
 
-    public EditData(String city, String country, String text, double latitude, double longitude, int userIdx, int date) {
+    @SerializedName("img")
+    private String img;
+
+    public EditData(String img, String city, String country, String text, double latitude, double longitude, int userIdx, int date) {
+        this.img = img;
         this.city = city;
         this.country = country;
         this.text = text;

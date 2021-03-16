@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,9 +47,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -69,9 +76,14 @@ public class EditView extends Fragment {
     Button save_button;
     EditText text_input;
     String token;
-    int userIdx;
     String birthDateStr;
+    Bitmap bitmap;
+    int userIdx;
     int resetDate;
+    Uri photoUri;
+    File file;
+
+    RequestBody fileBody;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -167,7 +179,12 @@ public class EditView extends Fragment {
                                 country = citylist.get(0).getCountryName();
                             }
                         }
-                        StartEdit(new EditData(city, country, text_input.getText().toString(), lat, lon, userIdx, resetDate));
+
+                       // RequestBody image = RequestBody.create(MediaType.parse("image/*"), bitmap);
+                        //fileBody = RequestBody.create(MediaType.parse("image/*"), file);
+                        //MultipartBody.Part.createFormData();
+
+                        StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text_input.getText().toString(), lat, lon, userIdx, resetDate));
                     }
                 }
             }
@@ -242,20 +259,30 @@ public class EditView extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GALLERY_REQUEST_CODE) {
-            Uri photoUri = data.getData();
+            photoUri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
+                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
                 edit_image.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    private String getStringFromBitmap(Bitmap bitmaps){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmaps.compress(Bitmap.CompressFormat.PNG,50, byteArrayOutputStream);
+        byte[] b = byteArrayOutputStream.toByteArray();
+        String img = Base64.encodeToString(b, Base64.DEFAULT);
+        return img;
     }
 
 }
