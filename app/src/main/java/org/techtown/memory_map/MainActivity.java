@@ -81,23 +81,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse result = response.body();
-
-                Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
-
-                if (result.getStatus() == 200) {
-
-                    SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("token", result.data.getAccessToken());
-                    editor.putInt("userIdx", result.data.getUserIdx());
-                    editor.commit();
-                    Intent intent = new Intent(getApplicationContext(), ChooseMenu.class);
-                    startActivityForResult(intent, REQUEST_CODE_MENU);
+                System.out.println(response.toString());
+                try {
+                    if (result.getStatus() == 200) {
+                        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("token", result.data.getAccessToken());
+                        editor.putInt("userIdx", result.data.getUserIdx());
+                        editor.commit();
+                        Intent intent = new Intent(getApplicationContext(), ChooseMenu.class);
+                        startActivityForResult(intent, REQUEST_CODE_MENU);
+                        Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else if (result.getStatus() == 400) {
+                        Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "Login fail", Toast.LENGTH_SHORT).show();
                 }
-                else if (result.getStatus() == 400) {
-                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
 
-                }
             }
 
             @Override
