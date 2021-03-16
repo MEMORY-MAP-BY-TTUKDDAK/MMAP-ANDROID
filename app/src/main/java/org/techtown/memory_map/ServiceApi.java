@@ -32,8 +32,6 @@ public interface ServiceApi {
 
 	@GET("/list/{userIdx}")
     Call<RecordResponse> getData(@Path("userIdx") int userIdx);
-    //Call<RecordResponse> getData(@Body RecordResponse.Data data);
-
 
     @Multipart
     @POST("/record")
@@ -43,9 +41,4 @@ public interface ServiceApi {
     @POST("/record")
     Call<EditResponse> userEdit(@Header("token") String token, @Body EditData data) ;
 */
-    /*
-    @Multipart
-    @POST("/record")
-    Call<EditResponse> userEdit(@Part MultipartBody.Part file);
-    */
 }

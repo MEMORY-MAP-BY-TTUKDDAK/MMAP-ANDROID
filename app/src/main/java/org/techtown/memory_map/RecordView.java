@@ -47,8 +47,6 @@ public class RecordView extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-
-        //adapter = new RecordAdapter();
         data = new ArrayList<>();
 
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
@@ -62,52 +60,31 @@ public class RecordView extends Fragment {
             @Override
             public void onResponse(Call<RecordResponse> call, Response<RecordResponse> response) {
                 dataList = response.body();
-
-                System.out.println(response.toString());
-
                 if (dataList.getStatus() == 200) {
                     data = dataList.getBody();
-
-                    System.out.println("Status 200 " + data);
-
                     adapter = new RecordAdapter(getContext(), data);
 
                     recyclerView.setAdapter(adapter);
+                    adapter.setOnItemClickListener(new OnRecordItemClickListener() {
+                        @Override
+                        public void onItemClick(RecordAdapter.ViewHolder holder, View view, int position) {
+                            Record item = adapter.getItem(position);
+                            Toast.makeText(getContext(), "아이템 선택됨: " + item.getText(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 else if (dataList.getStatus() == 400) {
-                    System.out.println("Error 400");
-
                     Toast.makeText(getContext(), dataList.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RecordResponse> call, Throwable t) {
-                Log.d("RecordView", dataList.toString());
                 Log.e("기록 불러오기 실패", t.getMessage());
                 t.printStackTrace();
             }
         });
 
-        /*
-        adapter.addItem(new Record(0, "Los Angeles, US", "", "", "미국", "capture1.jpg", "2월 1일"));
-
-        adapter.addItem(new Record(1, "Seoul, South Korea", "", "", "한국", "capture1.jpg", "2월 3일"));
-
-        adapter.addItem(new Record(2, "Tokyo, Japan", "", "", "일본", "capture1.jpg", "2월 5일"));
-
-        recyclerView.setAdapter(adapter);
-         */
-
-        if (adapter == null) System.out.println("Null");
-
-        adapter.setOnItemClickListener(new OnRecordItemClickListener() {
-            @Override
-            public void onItemClick(RecordAdapter.ViewHolder holder, View view, int position) {
-                Record item = adapter.getItem(position);
-                Toast.makeText(getContext(), "아이템 선택됨: " + item.getText(), Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
 }
