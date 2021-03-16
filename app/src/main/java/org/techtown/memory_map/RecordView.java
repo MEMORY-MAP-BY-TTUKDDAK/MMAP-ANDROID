@@ -1,6 +1,7 @@
 package org.techtown.memory_map;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class RecordView extends Fragment {
@@ -50,25 +53,37 @@ public class RecordView extends Fragment {
 
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
-        Call<RecordResponse> call = serviceApi.getData(4);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("login", MODE_PRIVATE);
+        int userIdx = sharedPreferences.getInt("userIdx", 0);
+
+        Call<RecordResponse> call = serviceApi.getData(userIdx);
 
         call.enqueue(new Callback<RecordResponse>() {
             @Override
             public void onResponse(Call<RecordResponse> call, Response<RecordResponse> response) {
                 dataList = response.body();
 
-                //Toast.makeText(RecordView.this, dataList.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println(response.toString());
+
                 if (dataList.getStatus() == 200) {
                     data = dataList.getBody();
+
+                    System.out.println("Status 200 " + data);
 
                     adapter = new RecordAdapter(getContext(), data);
 
                     recyclerView.setAdapter(adapter);
                 }
+                else if (dataList.getStatus() == 400) {
+                    System.out.println("Error 400");
+
+                    Toast.makeText(getContext(), dataList.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<RecordResponse> call, Throwable t) {
+                Log.d("RecordView", dataList.toString());
                 Log.e("기록 불러오기 실패", t.getMessage());
                 t.printStackTrace();
             }
@@ -84,6 +99,7 @@ public class RecordView extends Fragment {
         recyclerView.setAdapter(adapter);
          */
 
+        if (adapter == null) System.out.println("Null");
 
         adapter.setOnItemClickListener(new OnRecordItemClickListener() {
             @Override
