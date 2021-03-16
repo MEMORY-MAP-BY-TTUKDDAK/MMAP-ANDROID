@@ -70,6 +70,8 @@ public class EditView extends Fragment {
     EditText text_input;
     String token;
     int userIdx;
+    String birthDateStr;
+    int resetDate;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -87,13 +89,11 @@ public class EditView extends Fragment {
 
         Date curDate = new Date();
         setSelectedDate(curDate);
+        Calendar cal = Calendar.getInstance();
+        resetDate = cal.get(Calendar.YEAR) * 10000 + (cal.get(Calendar.MONTH)+1) * 100 + cal.get(Calendar.DAY_OF_MONTH);
 
         context = container.getContext();
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
-
-        //sharedPreference 해결해야함
-        //제발
-        //제발
         SharedPreferences sharedPreferences = context.getSharedPreferences("login", MODE_PRIVATE);
         token = sharedPreferences.getString("token","");
         userIdx = sharedPreferences.getInt("userIdx", -1);
@@ -144,7 +144,7 @@ public class EditView extends Fragment {
                     String city = "";
                     String country = "";
                     if (list.size() == 0) {
-                        address_result.setText("올바른 주소를 입력해주세요. ");
+                        Toast.makeText(context,"올바른 주소를 입력해주세요",Toast.LENGTH_SHORT);
                     } else {
                         Address address = list.get(0);
                         double lat = address.getLatitude();
@@ -167,9 +167,7 @@ public class EditView extends Fragment {
                                 country = citylist.get(0).getCountryName();
                             }
                         }
-                        String sss = String.format("위도 : %f, 경도 : %f", lat, lon);
-                        address_result.setText(sss);
-                        StartEdit(new EditData(city, country, text_input.getText().toString(), lat, lon, userIdx));
+                        StartEdit(new EditData(city, country, text_input.getText().toString(), lat, lon, userIdx, resetDate));
                     }
                 }
             }
@@ -184,9 +182,12 @@ public class EditView extends Fragment {
             public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
                 EditResponse result = response.body();
                 String temp = response.toString();
+                System.out.println(temp);
                 if(result.getStatus() == 200){
                     Toast.makeText(context,"저장이 완료되었습니다.",Toast.LENGTH_SHORT);
-                    //여기다가 edit text 등 초기화하는 코드 추가할 것
+                    address_input.setText(null);
+                    text_input.setText(null);
+                    edit_image.setImageResource(R.drawable.add_pic_button);
                 }
                 System.out.println(temp);
             }
@@ -194,12 +195,13 @@ public class EditView extends Fragment {
             @Override
             public void onFailure(Call<EditResponse> call, Throwable t) {
                 Toast.makeText(context, "작성에러",Toast.LENGTH_SHORT);
+                System.out.println("fail");
             }
         });
     }
 
     private void showDateDialog() {
-        String birthDateStr = Date_edit.getText().toString();
+        birthDateStr = Date_edit.getText().toString();
 
         Calendar calendar = Calendar.getInstance();
         Date curBirthDate = new Date();
@@ -214,7 +216,6 @@ public class EditView extends Fragment {
         int curYear = calendar.get(Calendar.YEAR);
         int curMonth = calendar.get(Calendar.MONTH);
         int curDay = calendar.get(Calendar.DAY_OF_MONTH);
-
         DatePickerDialog dialog = new DatePickerDialog(getContext(), R.style.DialogTheme, birthDateSetListener,  curYear, curMonth, curDay);
         dialog.show();
     }
@@ -225,15 +226,14 @@ public class EditView extends Fragment {
             selectedCalendar.set(Calendar.YEAR, year);
             selectedCalendar.set(Calendar.MONTH, monthOfYear);
             selectedCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
             Date curDate = selectedCalendar.getTime();
+            resetDate = year * 10000 + (monthOfYear+1) * 100 + dayOfMonth;
             setSelectedDate(curDate);
         }
     };
 
     private void setSelectedDate(Date curDate) {
         Selected_date = curDate;
-
         String selectedDateStr = dateFormat.format(curDate);
         Date_edit.setText(selectedDateStr);
     }

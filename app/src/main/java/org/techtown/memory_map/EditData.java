@@ -21,12 +21,16 @@ public class EditData {
     @SerializedName("userIdx")
     private int userIdx;
 
-    public EditData(String city, String country, String text, double latitude, double longitude, int userIdx) {
+    @SerializedName("date")
+    private int date;
+
+    public EditData(String city, String country, String text, double latitude, double longitude, int userIdx, int date) {
         this.city = city;
         this.country = country;
         this.text = text;
         this.latitude = latitude;
         this.longitude = longitude;
         this.userIdx = userIdx;
+        this.date = date;
     }
 }
