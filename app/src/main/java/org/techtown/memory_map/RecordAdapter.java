@@ -1,6 +1,8 @@
 package org.techtown.memory_map;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder> implements OnRecordItemClickListener {
     //ArrayList <Record> items = new ArrayList<Record>();
-    private Context c;
+    public Context c;
     private List<Record> items;
 
     OnRecordItemClickListener listener;
@@ -90,6 +93,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView list_ImageView;
 
+        ImageView record_edit;
+        ImageView record_delete;
+
         TextView location_record;
         TextView contents_record;
 
@@ -101,10 +107,39 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             list_ImageView = itemView.findViewById(R.id.list_ImageView);
 
+            record_edit = itemView.findViewById(R.id.record_edit);
+            record_delete = itemView.findViewById(R.id.record_delete);
+
             location_record = itemView.findViewById(R.id.location_record);
             contents_record = itemView.findViewById(R.id.contents_record);
 
             layout1 = itemView.findViewById(R.id.layout1);
+
+            record_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+
+                }
+            });
+
+            record_delete.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder ad = new AlertDialog.Builder(record_delete.getContext());
+                    ad.setTitle("삭제").setMessage("기록을 삭제하시겠습니까?").setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(record_delete.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(record_delete.getContext(), "취소하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }).create().show();
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

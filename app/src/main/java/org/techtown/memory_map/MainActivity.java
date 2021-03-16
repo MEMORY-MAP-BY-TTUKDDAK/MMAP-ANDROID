@@ -94,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ChooseMenu.class);
                     startActivityForResult(intent, REQUEST_CODE_MENU);
                 }
+                else if (result.getStatus() == 400) {
+                    Toast.makeText(MainActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
             }
 
             @Override
