@@ -145,6 +145,8 @@ public class EditView extends Fragment {
                 List<Address> citylist = null;
 
                 String str = address_input.getText().toString();
+                String text = text_input.getText().toString();
+
                 try {
                     list = geocoder.getFromLocationName
                             (str,
@@ -153,48 +155,47 @@ public class EditView extends Fragment {
                     e.printStackTrace();
                 } // 여기까지 지오코더의 에러 잡는 try-catch
 
-                if (list != null) {
-                    String city = "";
-                    String country = "";
-                    if (list.size() == 0) {
-                        Toast.makeText(address_input.getContext(),"올바른 주소를 입력해주세요",Toast.LENGTH_SHORT).show();
-                    } else {
-                        Address address = list.get(0);
-                        double lat = address.getLatitude();
-                        double lon = address.getLongitude();
+                if(str.length() == 0 || str == null || text.length() == 0 || text == null || bitmap == null) {
+                    Toast.makeText(save_button.getContext(), "모든 정보를 기재해주세요",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (list != null) {
+                        String city = "";
+                        String country = "";
+                        if (list.size() == 0) {
+                            Toast.makeText(address_input.getContext(), "올바른 주소를 입력해주세요", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Address address = list.get(0);
+                            double lat = address.getLatitude();
+                            double lon = address.getLongitude();
 
-                        try{
-                            citylist = geocoder.getFromLocation(
-                                    lat,
-                                    lon,
-                                    10
-                            );
-                        }catch(IOException e) {
-                            e.printStackTrace();
-                        }
-                        if(citylist != null) {
-                            if(list.size() == 0) {
-                                Log.e("reverseGeocoding", "해당 도시 없음");
+                            try {
+                                citylist = geocoder.getFromLocation(
+                                        lat,
+                                        lon,
+                                        10
+                                );
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                            else {
-                                city = citylist.get(0).getAdminArea();
-                                country = citylist.get(0).getCountryName();
-                                if(bitmap==null) {
-                                    Toast.makeText(edit_image.getContext(), "사진을 첨부해주세요", Toast.LENGTH_SHORT).show();
+                            if (citylist != null) {
+                                if (list.size() == 0) {
+                                    Log.e("reverseGeocoding", "해당 도시 없음");
+                                } else {
+                                    //city = citylist.get(0).getAdminArea();
+                                    city = citylist.get(0).getFeatureName();
+                                    country = citylist.get(0).getCountryName();
+                                    System.out.println("city : " + city);
+                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate));
+                                    address_result.setText(city + " " + country);
                                 }
-                                else {
-                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text_input.getText().toString(), lat, lon, userIdx, resetDate));
-                                }
-                                address_result.setText(city+" " + country);
                             }
+                            // RequestBody image = RequestBody.create(MediaType.parse("image/*"), bitmap);
+                            //fileBody = RequestBody.create(MediaType.parse("image/*"), file);
+                            //MultipartBody.Part.createFormData();
                         }
-                        address_result.setText("nonono");
-                       // RequestBody image = RequestBody.create(MediaType.parse("image/*"), bitmap);
-                        //fileBody = RequestBody.create(MediaType.parse("image/*"), file);
-                        //MultipartBody.Part.createFormData();
                     }
                 }
-                address_result.setText("nothing");
             }
         });
 
