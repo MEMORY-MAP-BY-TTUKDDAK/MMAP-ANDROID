@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.MediaActionSound;
@@ -62,7 +63,7 @@ import android.content.SharedPreferences;
 
 public class EditView extends Fragment {
 
-    private ImageView edit_image;
+    private RoundImageView edit_image;
     private Context context;
     private static final int GALLERY_REQUEST_CODE = 301;
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 401;
@@ -120,6 +121,7 @@ public class EditView extends Fragment {
         }
 
         edit_image = rootView.findViewById(R.id.edit_Image);
+        edit_image.setRadius(25f);
 
         edit_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,7 +265,9 @@ public class EditView extends Fragment {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
+                //edit_image.setBackground(null);
                 edit_image.setImageBitmap(bitmap);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -276,7 +280,6 @@ public class EditView extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
     private String getStringFromBitmap(Bitmap bitmaps){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmaps.compress(Bitmap.CompressFormat.PNG,50, byteArrayOutputStream);
@@ -284,5 +287,4 @@ public class EditView extends Fragment {
         String img = Base64.encodeToString(b, Base64.DEFAULT);
         return img;
     }
-
 }

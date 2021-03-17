@@ -98,6 +98,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
         TextView location_record;
         TextView contents_record;
+        TextView record_date;
 
         LinearLayout layout1;
 
@@ -105,6 +106,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         public ViewHolder (View itemView, final OnRecordItemClickListener listener) {
             super(itemView);
 
+            //각 View 할당
             list_ImageView = itemView.findViewById(R.id.list_ImageView);
 
             record_edit = itemView.findViewById(R.id.record_edit);
@@ -112,9 +114,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             location_record = itemView.findViewById(R.id.location_record);
             contents_record = itemView.findViewById(R.id.contents_record);
+            record_date = itemView.findViewById(R.id.record_date);
 
             layout1 = itemView.findViewById(R.id.layout1);
 
+
+            //기록 수정 버튼 클릭
             record_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -123,6 +128,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 }
             });
 
+            //기록 삭제 버튼 클릭
             record_delete.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
@@ -141,6 +147,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 }
             });
 
+            //각 기록 클릭
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -167,7 +174,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             }
 
-            //contents_record.setText(item.getContents());
+            record_date.setText(Integer.toString(item.getDate()));
             location_record.setText(item.getCity() + ", " + item.getCountry());
         }
     }

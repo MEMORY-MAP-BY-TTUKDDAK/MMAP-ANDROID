@@ -8,9 +8,6 @@
     android:orientation="vertical"
     tools:context=".EditView">
 
-
-    <!-- svg 처리 하기-->
-
     <Button
         android:id="@+id/date_edit"
         android:layout_width="350dp"
@@ -19,13 +16,13 @@
         android:layout_marginBottom="20dp"
         android:background="#82adce" />
 
-    <ImageView
+    <org.techtown.memory_map.RoundImageView
         android:id="@+id/edit_Image"
         android:layout_width="350dp"
         android:layout_height="150dp"
         android:layout_marginBottom="20dp"
         android:scaleType="centerCrop"
-        android:background="@drawable/add_pic_button" />
+        android:src="@drawable/add_pic_button" />
 
     <EditText
         android:id="@+id/text_input"
