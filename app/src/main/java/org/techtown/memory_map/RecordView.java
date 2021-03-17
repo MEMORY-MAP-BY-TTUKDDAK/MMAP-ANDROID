@@ -1,6 +1,7 @@
 package org.techtown.memory_map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -26,8 +27,6 @@ public class RecordView extends Fragment {
 
     RecyclerView recyclerView;
     RecordAdapter adapter;
-
-    Context context;
 
     private ServiceApi serviceApi;
     private RecordResponse dataList;
@@ -65,11 +64,29 @@ public class RecordView extends Fragment {
                     adapter = new RecordAdapter(getContext(), data);
 
                     recyclerView.setAdapter(adapter);
+
                     adapter.setOnItemClickListener(new OnRecordItemClickListener() {
                         @Override
                         public void onItemClick(RecordAdapter.ViewHolder holder, View view, int position) {
                             Record item = adapter.getItem(position);
-                            Toast.makeText(getContext(), "아이템 선택됨: " + item.getText(), Toast.LENGTH_LONG).show();
+                            final Context context = getContext();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("id", position);
+
+                            Intent mainIntent = new Intent(context, Record_check.class);
+                            mainIntent.putExtras(bundle);
+                            mainIntent.putExtra("date", Integer.toString(item.getDate()));
+                            mainIntent.putExtra("content", item.getText());
+                            mainIntent.putExtra("location", item.getCity() + " " + item.getCountry());
+                            mainIntent.putExtra("location_detail", item.getCountry() + " " + item.getCity());
+
+                            //ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+
+                            //mainIntent.putExtra("image", item.getImg());
+
+                            context.startActivity(mainIntent);
                         }
                     });
                 }

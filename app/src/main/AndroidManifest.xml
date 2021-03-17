@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".CreateAccount"/>
         <activity android:name=".ChooseMenu"/>
+        <activity android:name=".Record_check"/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="BuildConfig.api.key"/>

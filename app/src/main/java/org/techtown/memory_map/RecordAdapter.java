@@ -171,13 +171,14 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             contents_record.setText(contents);
             //System.out.println("contents : " + contents);
             String picturePath = item.getImg();
-            InputStream inputStream = new ByteArrayInputStream(picturePath.getBytes());
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            //InputStream inputStream = new ByteArrayInputStream(picturePath.getBytes());
+            //Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
             if (picturePath != null && !picturePath.equals("")) {
-                //list_ImageView.setVisibility(View.VISIBLE);
-                //list_ImageView.setImageURI(Uri.parse("file://" + picturePath));
-                list_ImageView.setImageBitmap(bitmap);
+                list_ImageView.setVisibility(View.VISIBLE);
+                list_ImageView.setImageURI(Uri.parse("file://" + picturePath));
+                //list_ImageView.setImageBitmap(bitmap);
             } else {
                 //이미지가 없을 경우 이미지 넣어두기?
 

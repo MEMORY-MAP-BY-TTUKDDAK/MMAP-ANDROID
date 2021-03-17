@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/createaccount"
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#345e86"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/header_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_header_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp">
+        </ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_logo"
+            android:layout_margin="2dp"
+            android:gravity="center_horizontal"
+            android:text="@string/memorymap"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/check_location"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Los Angeles, US"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:text=" 의 Memory"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/check_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="2021.03.21"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        />
+
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#33FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.techtown.memory_map.RoundImageView
+            android:id="@+id/check_image"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/edge"
+            android:layout_width="350dp"
+            android:layout_height="350dp"/>
+
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/ic_mappin"/>
+
+            <TextView
+                android:id="@+id/check_locationDetail"
+                android:layout_marginLeft="5dp"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:text="구체적 장소"
+                android:textSize="17sp"
+                android:textColor="#000000"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/check_content"
+            android:padding="5dp"
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"
+            android:text="기록 내용"
+            android:textSize="17sp"
+            android:textColor="#000000"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
