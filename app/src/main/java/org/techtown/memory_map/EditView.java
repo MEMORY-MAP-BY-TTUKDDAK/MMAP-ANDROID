@@ -162,6 +162,7 @@ public class EditView extends Fragment {
                     if (list != null) {
                         String city = "";
                         String country = "";
+                        String detailAddress = "";
                         if (list.size() == 0) {
                             Toast.makeText(address_input.getContext(), "올바른 주소를 입력해주세요", Toast.LENGTH_SHORT).show();
                         } else {
@@ -182,12 +183,11 @@ public class EditView extends Fragment {
                                 if (list.size() == 0) {
                                     Log.e("reverseGeocoding", "해당 도시 없음");
                                 } else {
-                                    //city = citylist.get(0).getAdminArea();
-                                    city = citylist.get(0).getFeatureName();
+                                    city = citylist.get(0).getAdminArea();
                                     country = citylist.get(0).getCountryName();
-                                    System.out.println("city : " + city);
+                                    detailAddress = citylist.get(0).getAddressLine(0);
                                     StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate));
-                                    address_result.setText(city + " " + country);
+                                    //address_result.setText(city + " " + country);
                                 }
                             }
                             // RequestBody image = RequestBody.create(MediaType.parse("image/*"), bitmap);
