@@ -151,14 +151,13 @@ public class EditView extends Fragment {
                                     10);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
-                }
+                } // 여기까지 지오코더의 에러 잡는 try-catch
 
                 if (list != null) {
                     String city = "";
                     String country = "";
                     if (list.size() == 0) {
-                        Toast.makeText(context,"올바른 주소를 입력해주세요",Toast.LENGTH_SHORT);
+                        Toast.makeText(address_input.getContext(),"올바른 주소를 입력해주세요",Toast.LENGTH_SHORT).show();
                     } else {
                         Address address = list.get(0);
                         double lat = address.getLatitude();
@@ -170,25 +169,32 @@ public class EditView extends Fragment {
                                     lon,
                                     10
                             );
-                        }catch(IOException e){
+                        }catch(IOException e) {
                             e.printStackTrace();
                         }
                         if(citylist != null) {
-                            if(list.size() == 0){
+                            if(list.size() == 0) {
                                 Log.e("reverseGeocoding", "해당 도시 없음");
-                            }else{
+                            }
+                            else {
                                 city = citylist.get(0).getAdminArea();
                                 country = citylist.get(0).getCountryName();
+                                if(bitmap==null) {
+                                    Toast.makeText(edit_image.getContext(), "사진을 첨부해주세요", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text_input.getText().toString(), lat, lon, userIdx, resetDate));
+                                }
+                                address_result.setText(city+" " + country);
                             }
                         }
-
+                        address_result.setText("nonono");
                        // RequestBody image = RequestBody.create(MediaType.parse("image/*"), bitmap);
                         //fileBody = RequestBody.create(MediaType.parse("image/*"), file);
                         //MultipartBody.Part.createFormData();
-
-                        StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text_input.getText().toString(), lat, lon, userIdx, resetDate));
                     }
                 }
+                address_result.setText("nothing");
             }
         });
 
@@ -203,7 +209,7 @@ public class EditView extends Fragment {
                 String temp = response.toString();
                 System.out.println(temp);
                 if(result.getStatus() == 200){
-                    Toast.makeText(context,"저장이 완료되었습니다.",Toast.LENGTH_SHORT);
+                    Toast.makeText(save_button.getContext(),"저장이 완료되었습니다.",Toast.LENGTH_SHORT).show();
                     address_input.setText(null);
                     text_input.setText(null);
                     edit_image.setImageResource(R.drawable.add_pic_button);
@@ -213,8 +219,7 @@ public class EditView extends Fragment {
 
             @Override
             public void onFailure(Call<EditResponse> call, Throwable t) {
-                Toast.makeText(context, "작성에러",Toast.LENGTH_SHORT);
-                System.out.println("fail");
+                Toast.makeText(save_button.getContext(), "통신에러",Toast.LENGTH_SHORT).show();
             }
         });
     }

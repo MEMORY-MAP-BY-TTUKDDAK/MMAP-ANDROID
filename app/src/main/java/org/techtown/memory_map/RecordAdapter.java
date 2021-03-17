@@ -3,7 +3,10 @@ package org.techtown.memory_map;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.renderscript.ScriptGroup;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,11 +169,15 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         public void setItem(Record item) {
             String contents = item.getText();
             contents_record.setText(contents);
-
+            //System.out.println("contents : " + contents);
             String picturePath = item.getImg();
+            InputStream inputStream = new ByteArrayInputStream(picturePath.getBytes());
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
             if (picturePath != null && !picturePath.equals("")) {
-                list_ImageView.setVisibility(View.VISIBLE);
-                list_ImageView.setImageURI(Uri.parse("file://" + picturePath));
+                //list_ImageView.setVisibility(View.VISIBLE);
+                //list_ImageView.setImageURI(Uri.parse("file://" + picturePath));
+                list_ImageView.setImageBitmap(bitmap);
             } else {
                 //이미지가 없을 경우 이미지 넣어두기?
 
