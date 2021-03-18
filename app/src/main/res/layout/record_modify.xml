@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CDE2F5"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".EditView">
+
+    <Button
+        android:id="@+id/date_edit"
+        android:layout_width="350dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#82adce" />
+
+    <org.techtown.memory_map.RoundImageView
+        android:id="@+id/edit_Image"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_pic_button" />
+
+    <EditText
+        android:id="@+id/text_input"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/edge"
+        android:gravity="top"
+        android:hint="텍스트 작성"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:maxLength="140"
+        android:padding="15dp"
+        android:textColor="#929292"
+        android:textColorHint="#929292" />
+
+    <EditText
+        android:id="@+id/location_input"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/location_input"
+        android:inputType="text"
+        android:textColor="#929292"
+        android:textColorHint="#929292"></EditText>
+
+    <TextView
+        android:id="@+id/location_result"
+        android:layout_width="350dp"
+        android:layout_height="10dp"></TextView>
+
+    <Button
+        android:id="@+id/edit_saveButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="350dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button"
+        android:text="수정하기"
+        android:textColor="#4F767E"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
