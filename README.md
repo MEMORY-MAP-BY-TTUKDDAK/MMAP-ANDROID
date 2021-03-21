@@ -1,20 +1,15 @@
 # MMAP-ANDROID
 
-# ¢Æ~_~L~O Why Memory Map?
+# ðŸŒ Why Memory Map?
 
-- ê°¤ë~_¬ë¦¬ë¥¢Æ ¢Æ~R¤ì| ¸ê¢Æ~@ë©¢Æ ì¶~T¢Æ~Vµì~W~P ¢Æ| ~V¢Æ~W~H¢Æ~M~X ê²½í~W~X, ¢Æ~K¤ë~S¤¤
- ¢Æ~U~\ ë²~H¢Æ~T©ì~]~@ ê°~Vê³|  ê³~D¢Æ~K~\ì£| ?
-- ¢Æ~W¬ë~_¬ë¢Æ~D¢Æ~]~X SNS ë°~O ë¸~Të¡~\ê·¸ì~W~P ë°©ë¬¸¢Æ~V~H¢Æ~M~X êµ¢Æê°~@¢Æ~S¤ì~]~X
-¢Æ~W¬í~V~Iê¸°ë¢Æ~]¢Æ~]~D ¢Æ~B¨ê¸°¢Æ~K|  ¢Æ| ~A, ¢Æ~U~\ ë²~Hì¯¢Æ ¢Æ~^~H¢Æ~\¼ì~K~\ì£| ?
-- ¢Æ~B´ê¢Æ~@ ë°©ë¬¸¢Æ~V~H¢Æ~M~X êµ¢Æê°~@¢Æ~S¢Æ, ë§~L¢Æ~S¤ì~W~H¢Æ~M~X ì¶~T¢Æ~Vµë~S¢Æ... ¢Æ~U~~
-\ ¢Æ~H~H¢Æ~W~P ë³¢Æ ¢Æ~H~X ¢Æ~^~H¢Æ~J~T ¢Æ~U±ì~]¢Æ ¢Æ~^~H¢Æ~K¤ë©´ ¢Æ~V´ë~V¨ê¢Æ~L¢Æ~Z~T?
+- ê°¤ëŸ¬ë¦¬ë¥¼ ë’¤ì ¸ê°€ë©° ì¶”ì–µì— ì –ì—ˆë˜ ê²½í—˜, ë‹¤ë“¤ í•œ ë²ˆì”©ì€ ê°–ê³  ê³„ì‹œì£ ?
+- ì—¬ëŸ¬ë¶„ì˜ SNS ë° ë¸”ë¡œê·¸ì— ë°©ë¬¸í–ˆë˜ êµ­ê°€ë“¤ì˜ ì—¬í–‰ê¸°ë¡ì„ ë‚¨ê¸°ì‹  ì , í•œ ë²ˆì¯¤ ìžˆìœ¼ì‹œì£ ?
+- ë‚´ê°€ ë°©ë¬¸í–ˆë˜ êµ­ê°€ë“¤, ë§Œë“¤ì—ˆë˜ ì¶”ì–µë“¤... í•œ ëˆˆì— ë³¼ ìˆ˜ ìžˆëŠ” ì•±ì´ ìžˆë‹¤ë©´ ì–´ë–¨ê¹Œìš”?
 
-# ¢Æ~_~X~N TEAM TTUK-DDAK?
+# ðŸ˜Ž TEAM TTUK-DDAK?
 
-- ¢Æ~H~Yëª~E¢Æ~W¬ì~^~P¢Æ~L~@¢Æ~U~Yêµ~P ¢Æ~F~L¢Æ~T~D¢Æ~J¸ì~[¨ì~V´í~U~Yë¶~@ 3¢Æ~]¸ì~\¼ë¢Æ~\\
- êµ¬ì~D±ë~P~\ 2021 ¢Æ~C~Aë°~Xê¸¢Æ ì¡¸ì~W~E¢Æ~^~Q¢Æ~R~H ¢Æ~S~\ë¦¼í~L~@!
+- ìˆ™ëª…ì—¬ìžëŒ€í•™êµ ì†Œí”„íŠ¸ì›¨ì–´í•™ë¶€ 3ì¸ìœ¼ë¡œ êµ¬ì„±ëœ 2021 ìƒë°˜ê¸° ì¡¸ì—…ìž‘í’ˆ ë“œë¦¼íŒ€!
 
-# ¢Æ~]¤ï¢Æ~O View of Memory Map
+# â¤ï¸ View of Memory Map
 
 # Function of MemoryMap
-
