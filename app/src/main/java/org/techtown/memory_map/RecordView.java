@@ -51,7 +51,8 @@ public class RecordView extends Fragment {
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("login", MODE_PRIVATE);
-        int userIdx = sharedPreferences.getInt("userIdx", 0);
+        //int userIdx = sharedPreferences.getInt("userIdx", 0);
+        int userIdx = 0;
 
         Call<RecordResponse> call = serviceApi.getData(userIdx);
 
@@ -62,6 +63,8 @@ public class RecordView extends Fragment {
                 if (dataList.getStatus() == 200) {
                     data = dataList.getBody();
                     adapter = new RecordAdapter(getContext(), data);
+
+                    System.out.println(adapter.getItemCount() + "");
 
                     recyclerView.setAdapter(adapter);
 
