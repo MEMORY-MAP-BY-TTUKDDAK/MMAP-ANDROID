@@ -15,8 +15,8 @@ public class MapResponse {
     private String message;
 
     @SerializedName("data")
-
     private List<MarkerData> data;
+
     public String getMessage() {
         return message;
     }

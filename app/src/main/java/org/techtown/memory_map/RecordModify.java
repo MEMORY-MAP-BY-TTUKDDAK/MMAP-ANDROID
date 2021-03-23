@@ -1,4 +1,4 @@
-package org.techtown.memory_map;
+/*package org.techtown.memory_map;
 
 import android.Manifest;
 import android.app.Activity;
@@ -60,6 +60,10 @@ import retrofit2.http.Multipart;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
+
+import org.techtown.memory_map.RecordView;
+import org.techtown.memory_map.RoundImageView;
+import org.techtown.memory_map.ServiceApi;
 
 public class RecordModify extends Fragment {
 
@@ -308,3 +312,4 @@ public class RecordModify extends Fragment {
         return img;
     }
 }
+*/

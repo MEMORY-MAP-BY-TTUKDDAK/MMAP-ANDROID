@@ -61,6 +61,8 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
 
+import com.bumptech.glide.Glide;
+
 public class EditView extends Fragment {
 
     private RoundImageView edit_image;
@@ -78,6 +80,7 @@ public class EditView extends Fragment {
     EditText text_input;
     String token;
     String birthDateStr;
+    String filepath;
     Bitmap bitmap;
     int userIdx;
     int resetDate;
@@ -186,7 +189,8 @@ public class EditView extends Fragment {
                                     city = citylist.get(0).getAdminArea();
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
-                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate, detailAddress));
+                                    StartEdit(new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress));
+                                    //getStringFromBitmap(bitmap)
                                     //address_result.setText(city + " " + country);
                                 }
                             }
@@ -203,12 +207,16 @@ public class EditView extends Fragment {
     }
 
     private void StartEdit(EditData editData) {
-        serviceApi.userEdit(token, editData).enqueue(new Callback<EditResponse>() {
+        File file = new File(filepath);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+        MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", filepath ,requestBody);
+        serviceApi.userEdit(token, uploadFile, editData).enqueue(new Callback<EditResponse>() {
             @Override
             public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
                 EditResponse result = response.body();
                 String temp = response.toString();
                 System.out.println(temp);
+                System.out.println(result.toString());
                 if(result.getStatus() == 200){
                     Toast.makeText(save_button.getContext(),"저장이 완료되었습니다.",Toast.LENGTH_SHORT).show();
                     address_input.setText(null);
@@ -262,7 +270,6 @@ public class EditView extends Fragment {
         Date_edit.setText(selectedDateStr);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GALLERY_REQUEST_CODE) {
@@ -272,6 +279,16 @@ public class EditView extends Fragment {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
                 //edit_image.setBackground(null);
                 edit_image.setImageBitmap(bitmap);
+                Cursor cursor = getContext().getContentResolver().query(Uri.parse(photoUri.toString()), null, null, null, null);
+                if(cursor == null) {
+                    filepath = photoUri.getPath();
+                } else {
+                    cursor.moveToFirst();
+                    int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    filepath = cursor.getString(idx);
+                    cursor.close();
+                }
+
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -287,9 +304,11 @@ public class EditView extends Fragment {
 
     private String getStringFromBitmap(Bitmap bitmaps){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmaps.compress(Bitmap.CompressFormat.PNG,50, byteArrayOutputStream);
+        bitmaps.compress(Bitmap.CompressFormat.JPEG,50, byteArrayOutputStream);
         byte[] b = byteArrayOutputStream.toByteArray();
         String img = Base64.encodeToString(b, Base64.DEFAULT);
         return img;
     }
+
+
 }

@@ -35,7 +35,7 @@ public interface ServiceApi {
 
     @Multipart
     @POST("/record")
-    Call<EditResponse> userEdit(@Header("token")String token, @Part("data") EditData data);
+    Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @Part("data") EditData data);
    // Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part data);
     /*
     @POST("/record")

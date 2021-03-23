@@ -9,10 +9,8 @@ public class EditResponse {
     @SerializedName("success")
     private boolean success;
 
-    public class Data{
-        @SerializedName("postIdx")
-        private int postIdx;
-    }
+    @SerializedName("data")
+    private EditResponseData data;
 
     public int getStatus() { return status; }
 

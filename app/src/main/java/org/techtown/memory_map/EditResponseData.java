@@ -2,9 +2,12 @@ package org.techtown.memory_map;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EditData {
-    //@SerializedName("postImg")
-    //private String img;
+public class EditResponseData {
+    @SerializedName("postIdx")
+    private int postIdx;
+
+    @SerializedName("postImg")
+    private String postImg;
 
     @SerializedName("city")
     private String city;
@@ -30,8 +33,9 @@ public class EditData {
     @SerializedName("location")
     private String location;
 
-    public EditData(String city, String country, String text, double latitude, double longitude, int userIdx, int date, String location) {
-        //this.img = img;
+    public EditResponseData(int postIdx, String postImg, String city, String country, String text, double latitude, double longitude, int userIdx, int date, String location) {
+        this.postIdx = postIdx;
+        this.postImg = postImg;
         this.city = city;
         this.country = country;
         this.text = text;
