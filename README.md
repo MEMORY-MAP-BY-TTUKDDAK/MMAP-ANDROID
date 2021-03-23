@@ -1,5 +1,3 @@
-# MMAP-ANDROID
-
 # 🌏 Why Memory Map?
 
 - 갤러리를 뒤져가며 추억에 젖었던 경험, 다들 한 번씩은 갖고 계시죠?
@@ -10,6 +8,18 @@
 
 - 숙명여자대학교 소프트웨어학부 3인으로 구성된 2021 상반기 졸업작품 드림팀!
 
+
 # ❤️ View of Memory Map
 
 # Function of MemoryMap
+-HomeView
+
+
+# API & Library
+- Retrofit2
+- Gson
+- RecyclerView
+- AppBarLayout
+- DatePicker
+- CardView
+- GoogleMapAPI
