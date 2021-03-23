@@ -190,13 +190,8 @@ public class EditView extends Fragment {
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
                                     StartEdit(new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress));
-                                    //getStringFromBitmap(bitmap)
-                                    //address_result.setText(city + " " + country);
                                 }
                             }
-                            // RequestBody image = RequestBody.create(MediaType.parse("image/*"), bitmap);
-                            //fileBody = RequestBody.create(MediaType.parse("image/*"), file);
-                            //MultipartBody.Part.createFormData();
                         }
                     }
                 }
@@ -277,7 +272,6 @@ public class EditView extends Fragment {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-                //edit_image.setBackground(null);
                 edit_image.setImageBitmap(bitmap);
                 Cursor cursor = getContext().getContentResolver().query(Uri.parse(photoUri.toString()), null, null, null, null);
                 if(cursor == null) {
@@ -301,14 +295,4 @@ public class EditView extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-    private String getStringFromBitmap(Bitmap bitmaps){
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmaps.compress(Bitmap.CompressFormat.JPEG,50, byteArrayOutputStream);
-        byte[] b = byteArrayOutputStream.toByteArray();
-        String img = Base64.encodeToString(b, Base64.DEFAULT);
-        return img;
-    }
-
-
 }
