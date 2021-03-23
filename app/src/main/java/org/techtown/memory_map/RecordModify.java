@@ -194,7 +194,7 @@ public class RecordModify extends Fragment {
                                     city = citylist.get(0).getAdminArea();
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
-                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate));
+                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate, detailAddress));
                                     //address_result.setText(city + " " + country);
                                 }
                             }

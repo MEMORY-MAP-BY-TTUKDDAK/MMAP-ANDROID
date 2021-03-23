@@ -3,6 +3,9 @@ package org.techtown.memory_map;
 import com.google.gson.annotations.SerializedName;
 
 public class EditData {
+    @SerializedName("img")
+    private String img;
+
     @SerializedName("city")
     private String city;
 
@@ -24,10 +27,10 @@ public class EditData {
     @SerializedName("date")
     private int date;
 
-    @SerializedName("img")
-    private String img;
+    @SerializedName("location")
+    private String location;
 
-    public EditData(String img, String city, String country, String text, double latitude, double longitude, int userIdx, int date) {
+    public EditData(String img, String city, String country, String text, double latitude, double longitude, int userIdx, int date, String location) {
         this.img = img;
         this.city = city;
         this.country = country;
@@ -36,5 +39,6 @@ public class EditData {
         this.longitude = longitude;
         this.userIdx = userIdx;
         this.date = date;
+        this.location = location;
     }
 }

@@ -186,7 +186,7 @@ public class EditView extends Fragment {
                                     city = citylist.get(0).getAdminArea();
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
-                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate));
+                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate, detailAddress));
                                     //address_result.setText(city + " " + country);
                                 }
                             }
@@ -215,7 +215,6 @@ public class EditView extends Fragment {
                     text_input.setText(null);
                     edit_image.setImageResource(R.drawable.add_pic_button);
                 }
-                System.out.println(temp);
             }
 
             @Override
