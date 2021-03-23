@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Record {
 
+    @SerializedName("postImg")
+    private String img;
+
     @SerializedName("city")
     private String city;
 
@@ -13,22 +16,23 @@ public class Record {
     @SerializedName("text")
     private String text;
 
-    @SerializedName("img")
-    private String img;
+    @SerializedName("date")
+    private int date;
 
     @SerializedName("user_userIdx")
     private int user_userIdx;
 
-    @SerializedName("date")
-    private int date;
+    @SerializedName("name")
+    private String name;
 
-    public Record(String city, String country, String text, String img, int user_userIdx, int date) {
+    public Record(String img, String city, String country, String text, int user_userIdx, int date, String name) {
+        this.img = img;
         this.city = city;
         this.country = country;
         this.text = text;
-        this.img = img;
         this.user_userIdx = user_userIdx;
         this.date = date;
+        this.name = name;
     }
 
     public String getCity() {

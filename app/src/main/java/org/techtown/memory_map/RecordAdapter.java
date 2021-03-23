@@ -1,11 +1,14 @@
 package org.techtown.memory_map;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.renderscript.ScriptGroup;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +128,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             layout1 = itemView.findViewById(R.id.layout1);
 
 
+
             //기록 수정 버튼 클릭
             record_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -176,9 +181,25 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             //Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
             if (picturePath != null && !picturePath.equals("")) {
+                /*
                 list_ImageView.setVisibility(View.VISIBLE);
                 list_ImageView.setImageURI(Uri.parse("file://" + picturePath));
-                //list_ImageView.setImageBitmap(bitmap);
+                */
+
+                Cursor cursor = contents_record.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, "_data = '" + picturePath + "'", null, null);
+
+                cursor.moveToNext();
+                int id = cursor.getInt(cursor.getColumnIndex("_id"));
+                Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(contents_record.getContext().getContentResolver(), uri);
+                    list_ImageView.setImageBitmap(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             } else {
                 //이미지가 없을 경우 이미지 넣어두기?
 
