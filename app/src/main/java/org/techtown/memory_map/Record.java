@@ -25,7 +25,7 @@ public class Record {
     @SerializedName("name")
     private String name;
 
-    public Record(String img, String city, String country, String text, int user_userIdx, int date, String name) {
+    public Record(String img, String city, String country, String text, int date, int user_userIdx, String name) {
         this.img = img;
         this.city = city;
         this.country = country;

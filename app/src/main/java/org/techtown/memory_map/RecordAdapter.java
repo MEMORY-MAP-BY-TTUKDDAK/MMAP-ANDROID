@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +53,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecordAdapter.ViewHolder holder, int position) {
-        //Record item = items.get(position);
         Record item = items.get(position);
         holder.setItem(item);
     }
@@ -61,20 +62,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         return items.size();
     }
 
-    /*
-    public void addItem(Record item) {
-        items.add(item);
-    }
-
-    public void setItems(ArrayList<Record> items) {
-        this.items = items;
-    }
-
-    public Record getItem(int position) {
-        return items.get(position);
-    }
-
-    */
 
     public void addItem(Record item) {
         items.add(item);
@@ -128,7 +115,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
             layout1 = itemView.findViewById(R.id.layout1);
 
 
-
             //기록 수정 버튼 클릭
             record_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -174,31 +160,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         public void setItem(Record item) {
             String contents = item.getText();
             contents_record.setText(contents);
-            //System.out.println("contents : " + contents);
+
             String picturePath = item.getImg();
 
-            //InputStream inputStream = new ByteArrayInputStream(picturePath.getBytes());
-            //Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
             if (picturePath != null && !picturePath.equals("")) {
-                /*
-                list_ImageView.setVisibility(View.VISIBLE);
-                list_ImageView.setImageURI(Uri.parse("file://" + picturePath));
-                */
 
-                Cursor cursor = contents_record.getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, "_data = '" + picturePath + "'", null, null);
-
-                cursor.moveToNext();
-                int id = cursor.getInt(cursor.getColumnIndex("_id"));
-                Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(contents_record.getContext().getContentResolver(), uri);
-                    list_ImageView.setImageBitmap(bitmap);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Glide.with(contents_record.getContext()).load(picturePath).into(list_ImageView);
 
             } else {
                 //이미지가 없을 경우 이미지 넣어두기?
