@@ -63,7 +63,6 @@ public class RecordView extends Fragment {
                 if (dataList.getStatus() == 200) {
                     data = dataList.getBody();
                     adapter = new RecordAdapter(getContext(), data);
-
                     System.out.println(adapter.getItemCount() + "");
 
                     recyclerView.setAdapter(adapter);

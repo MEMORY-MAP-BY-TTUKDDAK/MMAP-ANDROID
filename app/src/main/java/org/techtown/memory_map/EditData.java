@@ -41,4 +41,36 @@ public class EditData {
         this.date = date;
         this.location = location;
     }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public int getUserIdx() {
+        return userIdx;
+    }
+
+    public int getDate() {
+        return date;
+    }
+
+    public String getLocation() {
+        return location;
+    }
 }

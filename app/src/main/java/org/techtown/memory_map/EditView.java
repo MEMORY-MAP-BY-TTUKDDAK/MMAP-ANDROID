@@ -189,6 +189,14 @@ public class EditView extends Fragment {
                                     city = citylist.get(0).getAdminArea();
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
+                                    /*
+                                    RequestBody town = RequestBody.create(MediaType.parse("multipart/form-data"),city);
+                                    RequestBody nation = RequestBody.create(MediaType.parse("multipart/form-data"),country);
+                                    RequestBody texts = RequestBody.create(MediaType.parse("multipart/form-data"),text);
+                                    RequestBody lats = RequestBody.create(MediaType.parse("multipart/form-data"),lat);
+                                    RequestBody lons = RequestBody.create(MediaType.parse("text/plain"),lon);
+                                    RequestBody useridx = RequestBody.create(MediaType.parse("text/plain"),userIdx);
+*/
                                     StartEdit(new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress));
                                 }
                             }
@@ -205,7 +213,7 @@ public class EditView extends Fragment {
         File file = new File(filepath);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
         MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", filepath ,requestBody);
-        serviceApi.userEdit(token, uploadFile, editData).enqueue(new Callback<EditResponse>() {
+        serviceApi.userEdit(token, uploadFile, editData.getCity(), editData.getCountry(), editData.getText(), editData.getLatitude(), editData.getLongitude(), editData.getUserIdx(), editData.getDate(), editData.getLocation()).enqueue(new Callback<EditResponse>() {
             @Override
             public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
                 EditResponse result = response.body();

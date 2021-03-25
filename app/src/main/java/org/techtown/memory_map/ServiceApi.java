@@ -35,5 +35,15 @@ public interface ServiceApi {
 
     @Multipart
     @POST("/record")
-    Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @Part("data") EditData data);
+    //Call<EditResponse> userEdit(@Header("token")String token, @Part RequestBody postImg, @Part RequestBody data);
+    //Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @Part("data") EditData data);
+    Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg,
+                                @Part("city") String city,
+                                @Part("country") String country,
+                                @Part("text") String text,
+                                @Part("lattitude") double lat,
+                                @Part("longtitude") double lon,
+                                @Part("userIdx") int userIdx,
+                                @Part("date") int date,
+                                @Part("location") String location);
 }
