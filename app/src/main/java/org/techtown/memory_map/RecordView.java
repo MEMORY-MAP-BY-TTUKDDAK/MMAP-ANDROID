@@ -87,6 +87,17 @@ public class RecordView extends Fragment {
                             context.startActivity(mainIntent);
                         }
                     });
+
+                    adapter.setOnRecordModifyClickListener(new OnRecordItemClickListener() {
+                        @Override
+                        public void onItemClick(RecordAdapter.ViewHolder holder, View view, int position) {
+                            Context context = getContext();
+                            Intent intent = new Intent(context, RecordModify.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            context.startActivity(intent);
+                        }
+                    });
                 }
                 else if (dataList.getStatus() == 400) {
                     Toast.makeText(getContext(), dataList.getMessage(), Toast.LENGTH_SHORT).show();

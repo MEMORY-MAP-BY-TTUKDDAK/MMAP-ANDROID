@@ -1,6 +1,7 @@
-/*package org.techtown.memory_map;
+package org.techtown.memory_map;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -20,9 +21,11 @@ import android.nfc.Tag;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -65,7 +68,7 @@ import org.techtown.memory_map.RecordView;
 import org.techtown.memory_map.RoundImageView;
 import org.techtown.memory_map.ServiceApi;
 
-public class RecordModify extends Fragment {
+public class RecordModify extends AppCompatActivity {
 
     private RoundImageView edit_image;
     private Context context;
@@ -94,10 +97,12 @@ public class RecordModify extends Fragment {
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_editview, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.record_modify);
 
-        Date_edit = rootView.findViewById(R.id.date_edit);
+        //ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.record_modify, container, false);
+        Date_edit = findViewById(R.id.date_edit);
         Date_edit.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -113,22 +118,22 @@ public class RecordModify extends Fragment {
         //여기서는 날짜 변경 X시 원래 날짜 그대로 전송하게끔 후에 수정할것..
         resetDate = cal.get(Calendar.YEAR) * 10000 + (cal.get(Calendar.MONTH) + 1) * 100 + cal.get(Calendar.DAY_OF_MONTH);
 
-        context = container.getContext();
+        context = this;
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
         SharedPreferences sharedPreferences = context.getSharedPreferences("login", MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         userIdx = sharedPreferences.getInt("userIdx", -1);
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
             } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_PERMISSION);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_PERMISSION);
             }
         } else {
 
         }
 
-        edit_image = rootView.findViewById(R.id.edit_Image);
+        edit_image = findViewById(R.id.edit_Image);
         edit_image.setRadius(25f);
 
         edit_image.setOnClickListener(new View.OnClickListener() {
@@ -140,11 +145,11 @@ public class RecordModify extends Fragment {
             }
         });
 
-        text_input = rootView.findViewById(R.id.text_input);
-        address_input = rootView.findViewById(R.id.location_input);
-        save_button = rootView.findViewById(R.id.edit_saveButton);
-        address_result = rootView.findViewById(R.id.location_result);
-        final Geocoder geocoder = new Geocoder(this.getContext());
+        text_input = findViewById(R.id.text_input);
+        address_input = findViewById(R.id.location_input);
+        save_button = findViewById(R.id.edit_saveButton);
+        address_result = findViewById(R.id.location_result);
+        final Geocoder geocoder = new Geocoder(this);
 
         //텍스트 창이랑 이미지 창 서버로부터 받아온 정보를 기본으로 넣어둘것
         //text_input.setText(response.toString());
@@ -198,7 +203,7 @@ public class RecordModify extends Fragment {
                                     city = citylist.get(0).getAdminArea();
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
-                                    StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate, detailAddress));
+                                    //StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate, detailAddress));
                                     //address_result.setText(city + " " + country);
                                 }
                             }
@@ -211,9 +216,9 @@ public class RecordModify extends Fragment {
             }
         });
 
-        return rootView;
-    }
 
+    }
+/*
     private void StartEdit(EditData editData) {
         serviceApi.userEdit(token, editData).enqueue(new Callback<EditResponse>() {
             @Override
@@ -223,9 +228,9 @@ public class RecordModify extends Fragment {
                 System.out.println(temp);
                 if (result.getStatus() == 200) {
                     Toast.makeText(save_button.getContext(), "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                    //address_input.setText(null);
-                    //text_input.setText(null);
-                    //edit_image.setImageResource(R.drawable.add_pic_button);
+                    address_input.setText(null);
+                    text_input.setText(null);
+                    edit_image.setImageResource(R.drawable.add_pic_button);
 
                     //아래 코드는 getFragmentManager을 통해 recordView 불러오는거!
                     getFragmentManager().beginTransaction().replace(R.id.container, recordView).commit();
@@ -239,13 +244,9 @@ public class RecordModify extends Fragment {
             }
         });
     }
-
+*/
     private void showDateDialog() {
-        //여기서 서버로부터 받아온 데이터 Date형태로 바꿔줄것
         birthDateStr = Date_edit.getText().toString();
-        //birthDateStr을 서버로부터 받아온 int를 String으로 할것
-        //birthDateStr = response.getDate().toString();
-
         Calendar calendar = Calendar.getInstance();
         Date curBirthDate = new Date();
         try {
@@ -259,7 +260,7 @@ public class RecordModify extends Fragment {
         int curYear = calendar.get(Calendar.YEAR);
         int curMonth = calendar.get(Calendar.MONTH);
         int curDay = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), R.style.DialogTheme, birthDateSetListener, curYear, curMonth, curDay);
+        DatePickerDialog dialog = new DatePickerDialog(this, R.style.DialogTheme, birthDateSetListener, curYear, curMonth, curDay);
         dialog.show();
     }
 
@@ -288,8 +289,7 @@ public class RecordModify extends Fragment {
             photoUri = data.getData();
 
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-                //edit_image.setBackground(null);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                 edit_image.setImageBitmap(bitmap);
 
             } catch (IOException e) {
@@ -303,13 +303,4 @@ public class RecordModify extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-    private String getStringFromBitmap(Bitmap bitmaps) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmaps.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
-        byte[] b = byteArrayOutputStream.toByteArray();
-        String img = Base64.encodeToString(b, Base64.DEFAULT);
-        return img;
-    }
 }
-*/

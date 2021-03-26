@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder> implements OnRecordItemClickListener {
@@ -86,6 +89,10 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         }
     }
 
+    public void setOnRecordModifyClickListener(OnRecordItemClickListener onRecordItemClickListener) {
+        this.listener = onRecordItemClickListener;
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView list_ImageView;
 
@@ -97,11 +104,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         TextView record_date;
 
         LinearLayout layout1;
-
+        Context context;
 
         public ViewHolder (View itemView, final OnRecordItemClickListener listener) {
             super(itemView);
-
+            this.context = itemView.getContext();
             //각 View 할당
             list_ImageView = itemView.findViewById(R.id.list_ImageView);
 
@@ -121,7 +128,17 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 public void onClick(View view) {
                     int position = getAdapterPosition();
 
+                    if (listener != null) {
+                        /*
+                        Intent intent = new Intent(view.getContext(), RecordModify.class);
+                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                        view.getContext().startActivity(intent);
+                         */
+                        listener.onItemClick(ViewHolder.this, view, position);
+                    }
+
                 }
+
             });
 
             //기록 삭제 버튼 클릭
