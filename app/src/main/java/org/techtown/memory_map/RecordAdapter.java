@@ -38,6 +38,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     private List<Record> items;
 
     OnRecordItemClickListener listener;
+    OnRecordModifyListener modifyListener; //수정을 위한 listener
+    @Override
+    public boolean onFailedToRecycleView(@NonNull ViewHolder holder) {
+        return super.onFailedToRecycleView(holder);
+    }
 
     public RecordAdapter(Context c, List<Record> items) {
         this.c = c;
@@ -50,8 +55,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     public RecordAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.record_xml, parent, false);
-
-        return new ViewHolder(itemView, this);
+        return new ViewHolder(itemView, listener, modifyListener);
+        //return new ViewHolder(itemView, this);
     }
 
     @Override
@@ -89,8 +94,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         }
     }
 
-    public void setOnRecordModifyClickListener(OnRecordItemClickListener onRecordItemClickListener) {
-        this.listener = onRecordItemClickListener;
+    public void setOnRecordModifyClickListener(OnRecordModifyListener onRecordModifyListener) {
+        this.modifyListener = onRecordModifyListener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -106,8 +111,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         LinearLayout layout1;
         Context context;
 
-        public ViewHolder (View itemView, final OnRecordItemClickListener listener) {
+        public ViewHolder (View itemView, final OnRecordItemClickListener listener, OnRecordModifyListener modifyListener) {
             super(itemView);
+
             this.context = itemView.getContext();
             //각 View 할당
             list_ImageView = itemView.findViewById(R.id.list_ImageView);
@@ -128,13 +134,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 public void onClick(View view) {
                     int position = getAdapterPosition();
 
-                    if (listener != null) {
-                        /*
-                        Intent intent = new Intent(view.getContext(), RecordModify.class);
-                        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                        view.getContext().startActivity(intent);
-                         */
-                        listener.onItemClick(ViewHolder.this, view, position);
+                    if (modifyListener != null) {
+                        modifyListener.onItemModifyClick(ViewHolder.this, view, position);
                     }
 
                 }

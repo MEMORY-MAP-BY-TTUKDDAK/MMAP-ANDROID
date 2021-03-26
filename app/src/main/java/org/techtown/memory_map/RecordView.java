@@ -88,9 +88,9 @@ public class RecordView extends Fragment {
                         }
                     });
 
-                    adapter.setOnRecordModifyClickListener(new OnRecordItemClickListener() {
+                    adapter.setOnRecordModifyClickListener(new OnRecordModifyListener() {
                         @Override
-                        public void onItemClick(RecordAdapter.ViewHolder holder, View view, int position) {
+                        public void onItemModifyClick(RecordAdapter.ViewHolder holder, View view, int position) {
                             Context context = getContext();
                             Intent intent = new Intent(context, RecordModify.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
