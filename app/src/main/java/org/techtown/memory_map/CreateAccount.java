@@ -1,12 +1,18 @@
 package org.techtown.memory_map;
 
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +45,48 @@ public class CreateAccount extends AppCompatActivity {
 
         button=findViewById(R.id.createButton);
         id_input = findViewById(R.id.input_id);
+        id_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+
+                } else {
+                    if(id_input.length() < 8) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CreateAccount.this,R.style.MinLengthDialogTheme);
+                        builder.setMessage("ID는 8자 이상이어야 합니다.");
+                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
+            }
+        });
         pw_input = findViewById(R.id.input_pw);
+        pw_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+
+                } else {
+                    if(pw_input.length() < 8) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CreateAccount.this,R.style.MinLengthDialogTheme);
+                        builder.setMessage("비밀번호는 8자 이상이어야 합니다.");
+                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.show();
+                    }
+                }
+            }
+        });
+
         username_input = findViewById(R.id.input_username);
         email_input = findViewById(R.id.input_email);
 
@@ -63,8 +110,11 @@ public class CreateAccount extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if((id_input.length() == 0) ||(pw_input.length() == 0) || (username_input.length() == 0) || (email_input.length() == 0)){
-                    Toast.makeText(getApplicationContext(), "please enter all information",Toast.LENGTH_SHORT).show();
-                } else {
+                    Toast.makeText(getApplicationContext(), "필요한 정보를 모두 기입해주세요.",Toast.LENGTH_SHORT).show();
+                } else if((id_input.length() < 8) || (pw_input.length() < 8)) {
+                    Toast.makeText(getApplicationContext(), "ID 및 비밀번호는 8자이상이어야 합니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     id = id_input.getText().toString();
                     pw = pw_input.getText().toString();
                     username = username_input.getText().toString();

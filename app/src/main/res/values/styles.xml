@@ -11,4 +11,8 @@
         <item name ="colorAccent">#4492da</item>
     </style>
 
+    <style name="MinLengthDialogTheme" parent = "Theme.AppCompat.Light.Dialog">
+        <item name = "android:background">#ffffff</item>
+    </style>
+
 </resources>
