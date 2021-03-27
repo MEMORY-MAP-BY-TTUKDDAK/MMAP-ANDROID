@@ -46,7 +46,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -88,6 +90,7 @@ public class EditView extends Fragment {
     File file;
 
     RequestBody fileBody;
+    HashMap map;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -140,6 +143,7 @@ public class EditView extends Fragment {
         save_button = rootView.findViewById(R.id.edit_saveButton);
         address_result = rootView.findViewById(R.id.location_result);
         final Geocoder geocoder = new Geocoder(this.getContext());
+        map = new HashMap<String, RequestBody>();
 
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,17 +191,30 @@ public class EditView extends Fragment {
                                     Log.e("reverseGeocoding", "해당 도시 없음");
                                 } else {
                                     city = citylist.get(0).getAdminArea();
+                                    if(city == null || city.isEmpty()) {
+                                        city = citylist.get(0).getSubAdminArea();
+                                    }
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
-                                    /*
-                                    RequestBody town = RequestBody.create(MediaType.parse("multipart/form-data"),city);
-                                    RequestBody nation = RequestBody.create(MediaType.parse("multipart/form-data"),country);
-                                    RequestBody texts = RequestBody.create(MediaType.parse("multipart/form-data"),text);
-                                    RequestBody lats = RequestBody.create(MediaType.parse("multipart/form-data"),lat);
-                                    RequestBody lons = RequestBody.create(MediaType.parse("text/plain"),lon);
-                                    RequestBody useridx = RequestBody.create(MediaType.parse("text/plain"),userIdx);
-*/
-                                    StartEdit(new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress));
+
+                                    RequestBody town = RequestBody.create(MediaType.parse("text/plain"),city);
+                                    RequestBody nation = RequestBody.create(MediaType.parse("text/plain"),country);
+                                    RequestBody texts = RequestBody.create(MediaType.parse("text/plain"),text);
+                                    RequestBody lats = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(lat));
+                                    RequestBody lons = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(lon));
+                                    RequestBody useridx = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(userIdx));
+                                    RequestBody date = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(resetDate));
+                                    RequestBody locate = RequestBody.create(MediaType.parse("text/plain"), detailAddress);
+                                    map.put("city", town);
+                                    map.put("country", nation);
+                                    map.put("text", texts);
+                                    map.put("lattitude", lats);
+                                    map.put("longtitude", lons);
+                                    map.put("userIdx", useridx);
+                                    map.put("date", date);
+                                    map.put("location", locate);
+                                    //StartEdit(new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress));
+                                    StartEdit(map);
                                 }
                             }
                         }
@@ -209,11 +226,11 @@ public class EditView extends Fragment {
         return rootView;
     }
 
-    private void StartEdit(EditData editData) {
+    private void StartEdit(HashMap map) {
         File file = new File(filepath);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
         MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", filepath ,requestBody);
-        serviceApi.userEdit(token, uploadFile, editData.getCity(), editData.getCountry(), editData.getText(), editData.getLatitude(), editData.getLongitude(), editData.getUserIdx(), editData.getDate(), editData.getLocation()).enqueue(new Callback<EditResponse>() {
+        serviceApi.userEdit(token, uploadFile, map).enqueue(new Callback<EditResponse>() {
             @Override
             public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
                 EditResponse result = response.body();

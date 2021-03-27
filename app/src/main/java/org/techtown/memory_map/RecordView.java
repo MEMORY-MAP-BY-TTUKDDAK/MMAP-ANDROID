@@ -51,8 +51,8 @@ public class RecordView extends Fragment {
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("login", MODE_PRIVATE);
-        //int userIdx = sharedPreferences.getInt("userIdx", 0);
-        int userIdx = 5;
+        int userIdx = sharedPreferences.getInt("userIdx", 0);
+        //int userIdx = 5;
 
         Call<RecordResponse> call = serviceApi.getData(userIdx);
 

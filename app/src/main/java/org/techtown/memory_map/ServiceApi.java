@@ -16,6 +16,7 @@ import retrofit2.http.Path;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -37,7 +38,7 @@ public interface ServiceApi {
     @POST("/record")
     //Call<EditResponse> userEdit(@Header("token")String token, @Part RequestBody postImg, @Part RequestBody data);
     //Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @Part("data") EditData data);
-    Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg,
+    /*Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg,
                                 @Part("city") String city,
                                 @Part("country") String country,
                                 @Part("text") String text,
@@ -45,5 +46,6 @@ public interface ServiceApi {
                                 @Part("longtitude") double lon,
                                 @Part("userIdx") int userIdx,
                                 @Part("date") int date,
-                                @Part("location") String location);
+                                @Part("location") String location);*/
+    Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 }
