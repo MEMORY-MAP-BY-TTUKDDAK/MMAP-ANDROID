@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -86,6 +87,8 @@ public class EditView extends Fragment {
     Bitmap bitmap;
     int userIdx;
     int resetDate;
+
+
     Uri photoUri;
     File file;
 
@@ -196,6 +199,7 @@ public class EditView extends Fragment {
                                     }
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
+                                    //EditData data = new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress);
 
                                     RequestBody town = RequestBody.create(MediaType.parse("text/plain"),city);
                                     RequestBody nation = RequestBody.create(MediaType.parse("text/plain"),country);
@@ -205,6 +209,7 @@ public class EditView extends Fragment {
                                     RequestBody useridx = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(userIdx));
                                     RequestBody date = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(resetDate));
                                     RequestBody locate = RequestBody.create(MediaType.parse("text/plain"), detailAddress);
+
                                     map.put("city", town);
                                     map.put("country", nation);
                                     map.put("text", texts);
@@ -215,7 +220,8 @@ public class EditView extends Fragment {
                                     map.put("location", locate);
                                     //StartEdit(new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress));
                                     StartEdit(map);
-                                }
+                                    //MultipartBody.Part.createFormData("", lat);
+                            }
                             }
                         }
                     }
@@ -228,8 +234,23 @@ public class EditView extends Fragment {
 
     private void StartEdit(HashMap map) {
         File file = new File(filepath);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
-        MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", filepath ,requestBody);
+        InputStream inputStream = null;
+        //RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+        try {
+            inputStream = getContext().getContentResolver().openInputStream(photoUri);
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), byteArrayOutputStream.toByteArray());
+        MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", file.getName() ,requestBody);
+
+
+
+
+
         serviceApi.userEdit(token, uploadFile, map).enqueue(new Callback<EditResponse>() {
             @Override
             public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
@@ -320,4 +341,5 @@ public class EditView extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
 }
