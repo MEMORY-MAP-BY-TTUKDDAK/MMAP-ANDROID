@@ -90,9 +90,6 @@ public class EditView extends Fragment {
 
 
     Uri photoUri;
-    File file;
-
-    RequestBody fileBody;
     HashMap map;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
@@ -199,7 +196,6 @@ public class EditView extends Fragment {
                                     }
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
-                                    //EditData data = new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress);
 
                                     RequestBody town = RequestBody.create(MediaType.parse("text/plain"),city);
                                     RequestBody nation = RequestBody.create(MediaType.parse("text/plain"),country);
@@ -218,10 +214,8 @@ public class EditView extends Fragment {
                                     map.put("userIdx", useridx);
                                     map.put("date", date);
                                     map.put("location", locate);
-                                    //StartEdit(new EditData(city, country, text, lat, lon, userIdx, resetDate, detailAddress));
                                     StartEdit(map);
-                                    //MultipartBody.Part.createFormData("", lat);
-                            }
+                                }
                             }
                         }
                     }
@@ -235,7 +229,6 @@ public class EditView extends Fragment {
     private void StartEdit(HashMap map) {
         File file = new File(filepath);
         InputStream inputStream = null;
-        //RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),file);
         try {
             inputStream = getContext().getContentResolver().openInputStream(photoUri);
         }catch(IOException e) {
@@ -246,10 +239,6 @@ public class EditView extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), byteArrayOutputStream.toByteArray());
         MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", file.getName() ,requestBody);
-
-
-
-
 
         serviceApi.userEdit(token, uploadFile, map).enqueue(new Callback<EditResponse>() {
             @Override
@@ -328,7 +317,6 @@ public class EditView extends Fragment {
                     filepath = cursor.getString(idx);
                     cursor.close();
                 }
-
 
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,6 +1,7 @@
 package org.techtown.memory_map;
 
 import okhttp3.MultipartBody;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,19 +38,12 @@ public interface ServiceApi {
 
     @Multipart
     @POST("/record")
-    //Call<EditResponse> userEdit(@Header("token")String token, @Part RequestBody postImg, @Part RequestBody data);
-    //Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @Part("data") EditData data);
-    /*Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg,
-                                @Part("city") String city,
-                                @Part("country") String country,
-                                @Part("text") String text,
-                                @Part("lattitude") double lat,
-                                @Part("longtitude") double lon,
-                                @Part("userIdx") int userIdx,
-                                @Part("date") int date,
-                                @Part("location") String location);*/
     Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 
     @DELETE("/list/delete")
     Call<DeleteResponse> deleteRecord(@Header("token")String token, @Path("makerIdx") int markerIdx);
+
+    @Multipart
+    @POST("/list/update/{markerIdx}")
+    Call<ModifyResponse> modifyRecord(@Header("token")String token, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 }

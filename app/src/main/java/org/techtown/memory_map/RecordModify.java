@@ -49,6 +49,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -63,6 +64,8 @@ import retrofit2.http.Multipart;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
+
+import com.bumptech.glide.Glide;
 
 import org.techtown.memory_map.RecordView;
 import org.techtown.memory_map.RoundImageView;
@@ -87,19 +90,19 @@ public class RecordModify extends AppCompatActivity {
     EditText text_input;
     String token;
     String birthDateStr;
+    String filepath;
     Bitmap bitmap;
     int userIdx;
     int resetDate;
     Uri photoUri;
-    File file;
-
-    RequestBody fileBody;
+    HashMap map;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_modify);
+        Intent intent = getIntent();
 
         //ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.record_modify, container, false);
         Date_edit = findViewById(R.id.date_edit);
@@ -149,12 +152,14 @@ public class RecordModify extends AppCompatActivity {
         address_input = findViewById(R.id.location_input);
         save_button = findViewById(R.id.edit_saveButton);
         address_result = findViewById(R.id.location_result);
+        map = new HashMap<String, RequestBody>();
         final Geocoder geocoder = new Geocoder(this);
 
-        //텍스트 창이랑 이미지 창 서버로부터 받아온 정보를 기본으로 넣어둘것
-        //text_input.setText(response.toString());
-        //edit_image.setImage(response.getImage());
-        //address_input.setHint(response.getDetailAddress);
+        //기존 레코드 정보를 받아온다.
+        Date_edit.setText(intent.getStringExtra("date")); //날짜
+        Glide.with(edit_image.getContext()).load(intent.getStringExtra("image")).into(edit_image); //이미지
+        text_input.setText(intent.getStringExtra("content")); // 텍스트내용
+        address_input.setText(intent.getStringExtra("location_detail"));
 
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,48 +208,67 @@ public class RecordModify extends AppCompatActivity {
                                     city = citylist.get(0).getAdminArea();
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
-                                    //StartEdit(new EditData(getStringFromBitmap(bitmap), city, country, text, lat, lon, userIdx, resetDate, detailAddress));
-                                    //address_result.setText(city + " " + country);
+                                    RequestBody town = RequestBody.create(MediaType.parse("text/plain"),city);
+                                    RequestBody nation = RequestBody.create(MediaType.parse("text/plain"),country);
+                                    RequestBody texts = RequestBody.create(MediaType.parse("text/plain"),text);
+                                    RequestBody lats = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(lat));
+                                    RequestBody lons = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(lon));
+                                    RequestBody useridx = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(userIdx));
+                                    RequestBody date = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(resetDate));
+                                    RequestBody locate = RequestBody.create(MediaType.parse("text/plain"), detailAddress);
+
+                                    map.put("city", town);
+                                    map.put("country", nation);
+                                    map.put("text", texts);
+                                    map.put("date", date);
+                                    map.put("lattitude", lats);
+                                    map.put("longtitude", lons);
+                                    map.put("userIdx", useridx);
+                                    map.put("location", locate);
+                                    StartModify(map);
                                 }
                             }
-                            // RequestBody image = RequestBody.create(MediaType.parse("image/*"), bitmap);
-                            //fileBody = RequestBody.create(MediaType.parse("image/*"), file);
-                            //MultipartBody.Part.createFormData();
+
                         }
                     }
                 }
             }
         });
-
-
     }
-/*
-    private void StartEdit(EditData editData) {
-        serviceApi.userEdit(token, editData).enqueue(new Callback<EditResponse>() {
+
+    private void StartModify(HashMap map) {
+        File file = new File(filepath);
+        InputStream inputStream = null;
+        try {
+            inputStream = this.getContentResolver().openInputStream(photoUri);
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), byteArrayOutputStream.toByteArray());
+        MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", file.getName() ,requestBody);
+
+        serviceApi.modifyRecord(token, uploadFile, map).enqueue(new Callback<EditResponse>() {
             @Override
             public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
                 EditResponse result = response.body();
                 String temp = response.toString();
                 System.out.println(temp);
-                if (result.getStatus() == 200) {
-                    Toast.makeText(save_button.getContext(), "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                    address_input.setText(null);
-                    text_input.setText(null);
-                    edit_image.setImageResource(R.drawable.add_pic_button);
-
-                    //아래 코드는 getFragmentManager을 통해 recordView 불러오는거!
-                    getFragmentManager().beginTransaction().replace(R.id.container, recordView).commit();
+                if(result.getStatus() == 200){
+                    Toast.makeText(save_button.getContext(),"수정이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-                System.out.println(temp);
             }
 
             @Override
             public void onFailure(Call<EditResponse> call, Throwable t) {
-                Toast.makeText(save_button.getContext(), "통신에러", Toast.LENGTH_SHORT).show();
+                Toast.makeText(save_button.getContext(), "통신에러",Toast.LENGTH_SHORT).show();
             }
         });
     }
-*/
+
     private void showDateDialog() {
         birthDateStr = Date_edit.getText().toString();
         Calendar calendar = Calendar.getInstance();
@@ -291,6 +315,15 @@ public class RecordModify extends AppCompatActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                 edit_image.setImageBitmap(bitmap);
+                Cursor cursor = this.getContentResolver().query(Uri.parse(photoUri.toString()), null, null, null, null);
+                if(cursor == null) {
+                    filepath = photoUri.getPath();
+                } else {
+                    cursor.moveToFirst();
+                    int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                    filepath = cursor.getString(idx);
+                    cursor.close();
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -298,7 +331,6 @@ public class RecordModify extends AppCompatActivity {
 
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
