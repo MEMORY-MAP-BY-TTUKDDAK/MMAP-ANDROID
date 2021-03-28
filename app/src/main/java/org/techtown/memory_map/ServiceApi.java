@@ -8,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
@@ -41,7 +42,8 @@ public interface ServiceApi {
     @POST("/record")
     Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 
-    @DELETE("/list/delete")
+    @HTTP(method = "DELETE", hasBody = true, path = "/list/delete")
+    //@DELETE("/list/delete")
     Call<DeleteResponse> deleteRecord(@Header("token")String token, @Body DeleteData data);
 
     @Multipart
