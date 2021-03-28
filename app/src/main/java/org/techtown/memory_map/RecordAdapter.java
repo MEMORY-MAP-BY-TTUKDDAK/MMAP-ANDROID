@@ -76,14 +76,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         holder.record_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(view.getContext(), item.getMarkerIdx() + "번 마커", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
                 ad.setTitle("삭제").setMessage("기록을 삭제하시겠습니까?").setPositiveButton("삭제", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         holder.startDelete(item.getMarkerIdx());
                         notifyDataSetChanged();
-                        //Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
@@ -172,26 +170,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 }
 
             });
-            /*
-            //기록 삭제 버튼 클릭
-            record_delete.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder ad = new AlertDialog.Builder(record_delete.getContext());
-                    ad.setTitle("삭제").setMessage("기록을 삭제하시겠습니까?").setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(record_delete.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(record_delete.getContext(), "취소하였습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    }).create().show();
-                }
-            });
-            */
+
             //각 기록 클릭
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -238,6 +217,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
                     if (result.getStatus() == 200) {
                         Toast.makeText(record_delete.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
                     }
                     else
                     {
@@ -250,6 +230,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                     Toast.makeText(record_delete.getContext(), "삭제 에러", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 }
