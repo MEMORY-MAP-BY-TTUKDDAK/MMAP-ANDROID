@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Record {
 
+    @SerializedName("markerIdx")
+    private int markerIdx;
+
     @SerializedName("postImg")
     private String img;
 
@@ -25,7 +28,8 @@ public class Record {
     @SerializedName("name")
     private String name;
 
-    public Record(String img, String city, String country, String text, int date, int user_userIdx, String name) {
+    public Record(int markerIdx, String img, String city, String country, String text, int date, int user_userIdx, String name) {
+        this.markerIdx = markerIdx;
         this.img = img;
         this.city = city;
         this.country = country;
@@ -33,6 +37,14 @@ public class Record {
         this.user_userIdx = user_userIdx;
         this.date = date;
         this.name = name;
+    }
+
+    public int getMarkerIdx() {
+        return markerIdx;
+    }
+
+    public void setMarkerIdx(int markerIdx) {
+        this.markerIdx = markerIdx;
     }
 
     public String getCity() {

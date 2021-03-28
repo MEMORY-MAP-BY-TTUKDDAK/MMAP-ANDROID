@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,11 +32,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder> implements OnRecordItemClickListener {
     //ArrayList <Record> items = new ArrayList<Record>();
     public Context c;
     private List<Record> items;
+
+    ServiceApi serviceApi;
 
     OnRecordItemClickListener listener;
     OnRecordModifyListener modifyListener; //수정을 위한 listener
@@ -55,6 +61,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     public RecordAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.record_xml, parent, false);
+
+        serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
+
         return new ViewHolder(itemView, listener, modifyListener);
         //return new ViewHolder(itemView, this);
     }
@@ -63,6 +72,26 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     public void onBindViewHolder(@NonNull RecordAdapter.ViewHolder holder, int position) {
         Record item = items.get(position);
         holder.setItem(item);
+
+        holder.record_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(view.getContext(), item.getMarkerIdx() + "번 마커", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
+                ad.setTitle("삭제").setMessage("기록을 삭제하시겠습니까?").setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(view.getContext(), "취소하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
+
+            }
+        });
     }
 
     @Override
@@ -141,7 +170,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 }
 
             });
-
+            /*
             //기록 삭제 버튼 클릭
             record_delete.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -160,7 +189,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                     }).create().show();
                 }
             });
-
+            */
             //각 기록 클릭
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -192,6 +221,33 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             record_date.setText(Integer.toString(item.getDate()));
             location_record.setText(item.getCity() + ", " + item.getCountry());
+        }
+
+        private void startDelete(int markerIdx) {
+            SharedPreferences sharedPreferences = record_delete.getContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+
+            ServiceApi serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
+
+            serviceApi.deleteRecord(token, markerIdx).enqueue(new Callback<DeleteResponse>() {
+                @Override
+                public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
+                    DeleteResponse result = response.body();
+
+                    if (result.getStatus() == 200) {
+                        Toast.makeText(record_delete.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(record_delete.getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DeleteResponse> call, Throwable t) {
+                    Toast.makeText(record_delete.getContext(), "삭제 에러", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
