@@ -46,5 +46,5 @@ public interface ServiceApi {
 
     @Multipart
     @POST("/list/update/{markerIdx}")
-    Call<ModifyResponse> modifyRecord(@Header("token")String token, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
+    Call<ModifyResponse> modifyRecord(@Header("token")String token, @Path("markerIdx") int markerIdx, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 }

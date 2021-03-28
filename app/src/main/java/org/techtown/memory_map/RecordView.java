@@ -93,14 +93,16 @@ public class RecordView extends Fragment {
                         public void onItemModifyClick(RecordAdapter.ViewHolder holder, View view, int position) {
                             Context context = getContext();
                             Record record = adapter.getItem(position);
+                            int marker_idx = adapter.getItem(position).getMarkerIdx();
                             Intent intent = new Intent(context, RecordModify.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             intent.putExtra("date", Integer.toString(record.getDate()));
                             intent.putExtra("content", record.getText());
                             intent.putExtra("location", record.getCity() + " " + record.getCountry());
-                            intent.putExtra("location_detail", record.getCountry() + ", " + record.getCity());
+                            intent.putExtra("location_detail", record.getLocation());
                             intent.putExtra("image", record.getImg());
+                            intent.putExtra("markerIdx", marker_idx);
                             context.startActivity(intent);
                         }
                     });

@@ -45,6 +45,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,7 +93,7 @@ public class RecordModify extends AppCompatActivity {
     String birthDateStr;
     String filepath;
     Bitmap bitmap;
-    int userIdx;
+    int markerIdx;
     int resetDate;
     Uri photoUri;
     HashMap map;
@@ -103,8 +104,7 @@ public class RecordModify extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_modify);
         Intent intent = getIntent();
-
-        //ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.record_modify, container, false);
+        serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
         Date_edit = findViewById(R.id.date_edit);
         Date_edit.setOnClickListener(new View.OnClickListener() {
 
@@ -114,18 +114,18 @@ public class RecordModify extends AppCompatActivity {
             }
         });
 
-        Date curDate = new Date();
+        String temp = intent.getStringExtra("date");
+        resetDate = Integer.parseInt(temp);
+        markerIdx = intent.getIntExtra("markerIdx", 0);
+        /*Date curDate = new Date();
         setSelectedDate(curDate);
         Calendar cal = Calendar.getInstance();
+        resetDate = cal.get(Calendar.YEAR) * 10000 + (cal.get(Calendar.MONTH)+1) * 100 + cal.get(Calendar.DAY_OF_MONTH);
+*/
         //resetDate : 날짜를 수정하지 않았을 경우 EditView에서 자동으로 현재날짜 보낼목적으로 ..
         //여기서는 날짜 변경 X시 원래 날짜 그대로 전송하게끔 후에 수정할것..
-        resetDate = cal.get(Calendar.YEAR) * 10000 + (cal.get(Calendar.MONTH) + 1) * 100 + cal.get(Calendar.DAY_OF_MONTH);
 
-        context = this;
-        serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
-        SharedPreferences sharedPreferences = context.getSharedPreferences("login", MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "");
-        userIdx = sharedPreferences.getInt("userIdx", -1);
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
@@ -156,7 +156,13 @@ public class RecordModify extends AppCompatActivity {
         final Geocoder geocoder = new Geocoder(this);
 
         //기존 레코드 정보를 받아온다.
-        Date_edit.setText(intent.getStringExtra("date")); //날짜
+        Date responseDate = new Date();
+        try {
+            responseDate = dateFormat.parse(temp);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        Date_edit.setText(dateFormat.format(responseDate)); //날짜
         Glide.with(edit_image.getContext()).load(intent.getStringExtra("image")).into(edit_image); //이미지
         text_input.setText(intent.getStringExtra("content")); // 텍스트내용
         address_input.setText(intent.getStringExtra("location_detail"));
@@ -213,7 +219,6 @@ public class RecordModify extends AppCompatActivity {
                                     RequestBody texts = RequestBody.create(MediaType.parse("text/plain"),text);
                                     RequestBody lats = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(lat));
                                     RequestBody lons = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(lon));
-                                    RequestBody useridx = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(userIdx));
                                     RequestBody date = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(resetDate));
                                     RequestBody locate = RequestBody.create(MediaType.parse("text/plain"), detailAddress);
 
@@ -223,7 +228,6 @@ public class RecordModify extends AppCompatActivity {
                                     map.put("date", date);
                                     map.put("lattitude", lats);
                                     map.put("longtitude", lons);
-                                    map.put("userIdx", useridx);
                                     map.put("location", locate);
                                     StartModify(map);
                                 }
@@ -250,10 +254,10 @@ public class RecordModify extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), byteArrayOutputStream.toByteArray());
         MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", file.getName() ,requestBody);
 
-        serviceApi.modifyRecord(token, uploadFile, map).enqueue(new Callback<EditResponse>() {
+        serviceApi.modifyRecord(token, markerIdx, uploadFile, map).enqueue(new Callback<ModifyResponse>() {
             @Override
-            public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
-                EditResponse result = response.body();
+            public void onResponse(Call<ModifyResponse> call, Response<ModifyResponse> response) {
+                ModifyResponse result = response.body();
                 String temp = response.toString();
                 System.out.println(temp);
                 if(result.getStatus() == 200){
@@ -263,7 +267,7 @@ public class RecordModify extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<EditResponse> call, Throwable t) {
+            public void onFailure(Call<ModifyResponse> call, Throwable t) {
                 Toast.makeText(save_button.getContext(), "통신에러",Toast.LENGTH_SHORT).show();
             }
         });

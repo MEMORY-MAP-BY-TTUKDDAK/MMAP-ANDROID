@@ -25,10 +25,13 @@ public class Record {
     @SerializedName("user_userIdx")
     private int user_userIdx;
 
+    @SerializedName("location")
+    private String location;
+
     @SerializedName("name")
     private String name;
 
-    public Record(int markerIdx, String img, String city, String country, String text, int date, int user_userIdx, String name) {
+    public Record(int markerIdx, String img, String city, String country, String text, int date, int user_userIdx, String location, String name) {
         this.markerIdx = markerIdx;
         this.img = img;
         this.city = city;
@@ -36,6 +39,7 @@ public class Record {
         this.text = text;
         this.user_userIdx = user_userIdx;
         this.date = date;
+        this.location = location;
         this.name = name;
     }
 
@@ -87,6 +91,10 @@ public class Record {
 
     public void setUser_userIdx(int user_userIdx) {
         this.user_userIdx = user_userIdx;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }
 
