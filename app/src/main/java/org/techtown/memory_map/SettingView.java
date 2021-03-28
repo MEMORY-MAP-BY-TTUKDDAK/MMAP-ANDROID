@@ -60,6 +60,7 @@ public class SettingView extends Fragment {
                 fragmentManager.popBackStack();
                 SettingView.this.onDestroy();
                 SettingView.this.onDetach();
+
             }
         });
 

@@ -13,6 +13,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
@@ -43,10 +44,9 @@ public interface ServiceApi {
     Call<EditResponse> userEdit(@Header("token")String token, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 
     @HTTP(method = "DELETE", hasBody = true, path = "/list/delete")
-    //@DELETE("/list/delete")
     Call<DeleteResponse> deleteRecord(@Header("token")String token, @Body DeleteData data);
 
     @Multipart
-    @POST("/list/update/{markerIdx}")
+    @PUT("/list/update/{markerIdx}")
     Call<ModifyResponse> modifyRecord(@Header("token")String token, @Path("markerIdx") int markerIdx, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
 }
