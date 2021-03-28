@@ -81,7 +81,9 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 ad.setTitle("삭제").setMessage("기록을 삭제하시겠습니까?").setPositiveButton("삭제", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                        holder.startDelete(item.getMarkerIdx());
+                        notifyDataSetChanged();
+                        //Toast.makeText(view.getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
@@ -229,7 +231,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             ServiceApi serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
 
-            serviceApi.deleteRecord(token, markerIdx).enqueue(new Callback<DeleteResponse>() {
+            serviceApi.deleteRecord(token, new DeleteData(markerIdx)).enqueue(new Callback<DeleteResponse>() {
                 @Override
                 public void onResponse(Call<DeleteResponse> call, Response<DeleteResponse> response) {
                     DeleteResponse result = response.body();
