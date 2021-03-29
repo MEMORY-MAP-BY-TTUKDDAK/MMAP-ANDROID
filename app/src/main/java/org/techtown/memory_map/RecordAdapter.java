@@ -84,6 +84,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         holder.startDelete(item.getMarkerIdx());
+
+                        items.remove(position);
+
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, items.size());
+
                         notifyDataSetChanged();
                     }
                 }).setNegativeButton("취소", new DialogInterface.OnClickListener() {

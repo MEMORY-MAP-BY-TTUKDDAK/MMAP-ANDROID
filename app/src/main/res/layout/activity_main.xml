@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="아이디"
-            android:textColor="#535F53"
+            android:textColor="#23648C"
             android:textStyle="bold"
             android:textSize="15sp" />
 
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="비밀번호"
-            android:textColor="#535F53"
+            android:textColor="#23648C"
             android:textStyle="bold"
             android:textSize="15sp" />
 

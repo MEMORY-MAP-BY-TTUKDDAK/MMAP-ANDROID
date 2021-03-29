@@ -2,11 +2,11 @@
     <string name="app_name">Memory_Map</string>
     <string name="welcome">Welcome</string>
     <string name="sign_up_to">Sign Up to Memory Map</string>
-    <string name="id">ID</string>
-    <string name="pw">Password</string>
-    <string name="username">Nickname</string>
-    <string name="email">E-mail</string>
-    <string name="create">Sign up</string>
+    <string name="id">아이디</string>
+    <string name="pw">비밀번호</string>
+    <string name="username">닉네임</string>
+    <string name="email">email</string>
+    <string name="create">가입하기</string>
     <string name="login">Sign in</string>
     <string name="memorymap">MEMORY MAP</string>
     <string name="location_input">나는 지금 어디에 있나요?</string>
