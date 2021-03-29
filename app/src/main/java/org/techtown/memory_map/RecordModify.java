@@ -45,6 +45,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,10 +79,7 @@ public class RecordModify extends AppCompatActivity {
     private Context context;
     private static final int GALLERY_REQUEST_CODE = 301;
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 401;
-
     private ServiceApi serviceApi;
-
-    RecordView recordView = new RecordView();
 
     Button Date_edit;
     Date Selected_date;
@@ -89,9 +87,15 @@ public class RecordModify extends AppCompatActivity {
     TextView address_result;
     Button save_button;
     EditText text_input;
+
     String token;
     String birthDateStr;
     String filepath;
+
+    String original_locate; //원래 위치
+    String original_text; //원래 텍스트
+    Bitmap original_bitmap; //원래 이미지
+
     Bitmap bitmap;
     int markerIdx;
     int resetDate;
@@ -105,6 +109,10 @@ public class RecordModify extends AppCompatActivity {
         setContentView(R.layout.record_modify);
         Intent intent = getIntent();
         serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        token = sharedPreferences.getString("token","");
+
+        //달력 버튼 누를 시 달력 띄워줌
         Date_edit = findViewById(R.id.date_edit);
         Date_edit.setOnClickListener(new View.OnClickListener() {
 
@@ -115,15 +123,8 @@ public class RecordModify extends AppCompatActivity {
         });
 
         String temp = intent.getStringExtra("date");
-        resetDate = Integer.parseInt(temp);
+        resetDate = Integer.parseInt(temp); //원래 날짜 보존을 위한 변수 resetDate
         markerIdx = intent.getIntExtra("markerIdx", 0);
-        /*Date curDate = new Date();
-        setSelectedDate(curDate);
-        Calendar cal = Calendar.getInstance();
-        resetDate = cal.get(Calendar.YEAR) * 10000 + (cal.get(Calendar.MONTH)+1) * 100 + cal.get(Calendar.DAY_OF_MONTH);
-*/
-        //resetDate : 날짜를 수정하지 않았을 경우 EditView에서 자동으로 현재날짜 보낼목적으로 ..
-        //여기서는 날짜 변경 X시 원래 날짜 그대로 전송하게끔 후에 수정할것..
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -156,16 +157,28 @@ public class RecordModify extends AppCompatActivity {
         final Geocoder geocoder = new Geocoder(this);
 
         //기존 레코드 정보를 받아온다.
+        DateFormat dateStringFormat = new SimpleDateFormat("yyyyMMdd");
+        System.out.println("temp : "+temp);
         Date responseDate = new Date();
         try {
-            responseDate = dateFormat.parse(temp);
+            responseDate = dateStringFormat.parse(temp);
         } catch(Exception ex) {
             ex.printStackTrace();
         }
         Date_edit.setText(dateFormat.format(responseDate)); //날짜
+        System.out.println("date : " + dateFormat.format(responseDate));
+
         Glide.with(edit_image.getContext()).load(intent.getStringExtra("image")).into(edit_image); //이미지
-        text_input.setText(intent.getStringExtra("content")); // 텍스트내용
-        address_input.setText(intent.getStringExtra("location_detail"));
+        BitmapDrawable drawable = (BitmapDrawable) edit_image.getDrawable();
+        original_bitmap = drawable.getBitmap();
+
+        // 텍스트내용
+        original_text = intent.getStringExtra("content");
+        text_input.setText(original_text);
+
+        //주소 받아오기
+        original_locate = intent.getStringExtra("location_detail");
+        address_input.setText(original_locate);
 
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +187,20 @@ public class RecordModify extends AppCompatActivity {
                 List<Address> citylist = null;
 
                 String str = address_input.getText().toString();
+                if((str == null) || (str.length() == 0)){
+                    str = original_locate;
+                } //아무것도 변동이 안되었을 경우 원래 값 그대로 지오코딩
+
+
                 String text = text_input.getText().toString();
+                if((text == null) || (text.length() == 0)) {
+                    text = original_text;
+                } //변동 x시 원래 텍스트 그대로 넣기
+
+                if(bitmap == null) {
+                    bitmap = original_bitmap;
+                    photoUri = getImageUri(edit_image.getContext(), bitmap);
+                } //사진 수정 X시 원래 이미지 그대로 넣기
 
                 try {
                     list = geocoder.getFromLocationName
@@ -222,6 +248,7 @@ public class RecordModify extends AppCompatActivity {
                                     RequestBody date = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(resetDate));
                                     RequestBody locate = RequestBody.create(MediaType.parse("text/plain"), detailAddress);
 
+                                    System.out.println(resetDate + " " + detailAddress);
                                     map.put("city", town);
                                     map.put("country", nation);
                                     map.put("text", texts);
@@ -240,11 +267,18 @@ public class RecordModify extends AppCompatActivity {
         });
     }
 
+    private Uri getImageUri(Context context, Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
+    }
+
     private void StartModify(HashMap map) {
-        File file = new File(filepath);
+        File file = new File(filepath); // filepath = photoUri.getPath()
         InputStream inputStream = null;
         try {
-            inputStream = this.getContentResolver().openInputStream(photoUri);
+            inputStream = getContentResolver().openInputStream(photoUri);
         }catch(IOException e) {
             e.printStackTrace();
         }
@@ -263,6 +297,8 @@ public class RecordModify extends AppCompatActivity {
                 if(result.getStatus() == 200){
                     Toast.makeText(save_button.getContext(),"수정이 완료되었습니다.",Toast.LENGTH_SHORT).show();
                     finish();
+                }else {
+                    System.out.println(result.getStatus() + " " + result.getMessage());
                 }
             }
 
@@ -317,9 +353,9 @@ public class RecordModify extends AppCompatActivity {
             photoUri = data.getData();
 
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
                 edit_image.setImageBitmap(bitmap);
-                Cursor cursor = this.getContentResolver().query(Uri.parse(photoUri.toString()), null, null, null, null);
+                Cursor cursor = getContentResolver().query(Uri.parse(photoUri.toString()), null, null, null, null);
                 if(cursor == null) {
                     filepath = photoUri.getPath();
                 } else {
