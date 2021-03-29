@@ -25,7 +25,10 @@ import com.bumptech.glide.Glide;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -123,6 +126,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
         }
     }
 
+    public void updateList(List<Record> recordList) {
+        items.clear();
+
+        this.items.addAll(recordList);
+        notifyDataSetChanged();
+    }
+
     public void setOnRecordModifyClickListener(OnRecordModifyListener onRecordModifyListener) {
         this.modifyListener = onRecordModifyListener;
     }
@@ -193,14 +203,25 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             if (picturePath != null && !picturePath.equals("")) {
 
-                Glide.with(contents_record.getContext()).load(picturePath).into(list_ImageView);
+                Glide.with(contents_record.getContext()).load(picturePath).centerCrop().into(list_ImageView);
 
             } else {
                 //이미지가 없을 경우 이미지 넣어두기?
 
             }
 
-            record_date.setText(Integer.toString(item.getDate()));
+            SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat newFormat = new SimpleDateFormat("yyyy.MM.dd");
+            String intentDate = Integer.toString(item.getDate());
+            String newDate = "";
+            try {
+                Date date = dtFormat.parse(intentDate);
+                newDate = newFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            record_date.setText(newDate);
             location_record.setText(item.getCity() + ", " + item.getCountry());
         }
 

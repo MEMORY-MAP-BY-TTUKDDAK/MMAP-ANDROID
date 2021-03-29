@@ -96,6 +96,14 @@ public class Record {
     public String getLocation() {
         return location;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 
 
