@@ -108,6 +108,9 @@ public class SettingView extends Fragment {
 
                 if (delResponse.getStatus() == 200) {
                     Toast.makeText(getContext(), "계정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    getContext().startActivity(intent);
                 }
                 else
                 {

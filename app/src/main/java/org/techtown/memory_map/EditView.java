@@ -31,6 +31,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -146,6 +147,20 @@ public class EditView extends Fragment {
         address_result = rootView.findViewById(R.id.location_result);
         final Geocoder geocoder = new Geocoder(this.getContext());
         map = new HashMap<String, RequestBody>();
+
+        save_button.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    save_button.setBackgroundResource(R.drawable.button_login);
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    save_button.setBackgroundResource(R.drawable.before_button_click);
+                }
+                return false;
+            }
+        });
 
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
