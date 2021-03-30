@@ -10,16 +10,24 @@
 
 
 # ❤️ View of Memory Map
+-HomeView : 로그인 및 회원가입
+
+![로그인](https://user-images.githubusercontent.com/50194490/112957299-42f11480-917c-11eb-8894-bc0cfe1036e0.jpg){: width = "187.5" height = "406"}![회원가입](https://user-images.githubusercontent.com/50194490/112957310-45536e80-917c-11eb-9f13-70c59d68f530.jpg){: width = "187.5" height = "406"}
+
 
 # Function of MemoryMap
 -HomeView
 
 
 # API & Library
-- Retrofit2
-- Gson
-- RecyclerView
-- AppBarLayout
-- DatePicker
-- CardView
+- Retrofit2 
 - GoogleMapAPI
+- Gson 
+- Glide
+- Geocoder
+- RecyclerView
+- CardView
+- BottomNavigationView
+- AppBarLayout
+- SwipeRefreshLayout
+- DatePicker
