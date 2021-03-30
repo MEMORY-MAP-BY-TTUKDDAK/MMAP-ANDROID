@@ -101,6 +101,22 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             }
         });
+
+        holder.record_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //int position = getAdapterPosition();
+
+                if (modifyListener != null) {
+                    modifyListener.onItemModifyClick(holder, view, position);
+                    notifyItemChanged(position);
+                    notifyDataSetChanged();
+
+                }
+
+            }
+
+        });
     }
 
     @Override
@@ -174,6 +190,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
 
             //기록 수정 버튼 클릭
+            /*
             record_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -181,11 +198,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
                     if (modifyListener != null) {
                         modifyListener.onItemModifyClick(ViewHolder.this, view, position);
+
                     }
 
                 }
 
-            });
+            });*/
 
             //각 기록 클릭
             itemView.setOnClickListener(new View.OnClickListener() {

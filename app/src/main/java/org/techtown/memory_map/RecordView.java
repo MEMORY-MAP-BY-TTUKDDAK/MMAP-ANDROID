@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class RecordView extends Fragment {
 
     private void initUI(ViewGroup rootView) {
         recyclerView = rootView.findViewById(R.id.list_Recycler);
-
+        Fragment fragment = this;
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         data = new ArrayList<>();
@@ -103,9 +105,11 @@ public class RecordView extends Fragment {
                             intent.putExtra("location_detail", record.getLocation());
                             intent.putExtra("image", record.getImg());
                             intent.putExtra("markerIdx", marker_idx);
+                            intent.putExtra("position", position);
                             context.startActivity(intent);
                         }
                     });
+
                 }
                 else if (dataList.getStatus() == 400) {
                     Toast.makeText(getContext(), dataList.getMessage(), Toast.LENGTH_SHORT).show();

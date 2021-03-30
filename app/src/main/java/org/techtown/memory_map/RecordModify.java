@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -102,6 +103,12 @@ public class RecordModify extends AppCompatActivity {
     Uri photoUri;
     HashMap map;
 
+    String city = "";
+    String country = "";
+    String detailAddress = "";
+    String text = "";
+    double lat;
+    double lon;
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
     public void onCreate(Bundle savedInstanceState) {
@@ -158,7 +165,6 @@ public class RecordModify extends AppCompatActivity {
 
         //기존 레코드 정보를 받아온다.
         DateFormat dateStringFormat = new SimpleDateFormat("yyyyMMdd");
-        System.out.println("temp : "+temp);
         Date responseDate = new Date();
         try {
             responseDate = dateStringFormat.parse(temp);
@@ -166,7 +172,6 @@ public class RecordModify extends AppCompatActivity {
             ex.printStackTrace();
         }
         Date_edit.setText(dateFormat.format(responseDate)); //날짜
-        System.out.println("date : " + dateFormat.format(responseDate));
 
         Glide.with(edit_image.getContext()).load(intent.getStringExtra("image")).into(edit_image); //이미지
         BitmapDrawable drawable = (BitmapDrawable) edit_image.getDrawable();
@@ -192,7 +197,7 @@ public class RecordModify extends AppCompatActivity {
                 } //아무것도 변동이 안되었을 경우 원래 값 그대로 지오코딩
 
 
-                String text = text_input.getText().toString();
+                text = text_input.getText().toString();
                 if((text == null) || (text.length() == 0)) {
                     text = original_text;
                 } //변동 x시 원래 텍스트 그대로 넣기
@@ -214,15 +219,15 @@ public class RecordModify extends AppCompatActivity {
                     Toast.makeText(save_button.getContext(), "모든 정보를 기재해주세요", Toast.LENGTH_SHORT).show();
                 } else {
                     if (list != null) {
-                        String city = "";
-                        String country = "";
-                        String detailAddress = "";
+                        //String city = "";
+                        //String country = "";
+                        //String detailAddress = "";
                         if (list.size() == 0) {
                             Toast.makeText(address_input.getContext(), "올바른 주소를 입력해주세요", Toast.LENGTH_SHORT).show();
                         } else {
                             Address address = list.get(0);
-                            double lat = address.getLatitude();
-                            double lon = address.getLongitude();
+                            lat = address.getLatitude();
+                            lon = address.getLongitude();
 
                             try {
                                 citylist = geocoder.getFromLocation(
@@ -248,7 +253,6 @@ public class RecordModify extends AppCompatActivity {
                                     RequestBody date = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(resetDate));
                                     RequestBody locate = RequestBody.create(MediaType.parse("text/plain"), detailAddress);
 
-                                    System.out.println(resetDate + " " + detailAddress);
                                     map.put("city", town);
                                     map.put("country", nation);
                                     map.put("text", texts);
