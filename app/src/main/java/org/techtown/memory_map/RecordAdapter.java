@@ -188,23 +188,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             layout1 = itemView.findViewById(R.id.layout1);
 
-
-            //기록 수정 버튼 클릭
-            /*
-            record_edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-
-                    if (modifyListener != null) {
-                        modifyListener.onItemModifyClick(ViewHolder.this, view, position);
-
-                    }
-
-                }
-
-            });*/
-
             //각 기록 클릭
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -230,7 +213,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 Glide.with(contents_record.getContext()).load(picturePath).centerCrop().into(list_ImageView);
 
             } else {
-                //이미지가 없을 경우 이미지 넣어두기?
 
             }
 

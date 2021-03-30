@@ -12,9 +12,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.ExifInterface;
 import android.media.MediaActionSound;
 import android.net.Uri;
 import android.nfc.Tag;
@@ -307,7 +309,8 @@ public class EditView extends Fragment {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-                edit_image.setImageBitmap(bitmap);
+                //edit_image.setImageBitmap(bitmap);
+
                 Cursor cursor = getContext().getContentResolver().query(Uri.parse(photoUri.toString()), null, null, null, null);
                 if(cursor == null) {
                     filepath = photoUri.getPath();
@@ -317,6 +320,17 @@ public class EditView extends Fragment {
                     filepath = cursor.getString(idx);
                     cursor.close();
                 }
+                //이미지 회전 방지
+                ExifInterface exif = null;
+                try {
+                    exif = new ExifInterface(filepath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+                Bitmap bmRotated = rotateBitmap(bitmap, orientation);
+                edit_image.setImageBitmap(bmRotated);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -328,6 +342,48 @@ public class EditView extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface
+                    .ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);;
+                matrix.postScale(-1, 1);
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1,1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

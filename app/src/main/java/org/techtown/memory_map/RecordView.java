@@ -117,7 +117,7 @@ public class RecordView extends Fragment {
                             mainIntent.putExtra("date", Integer.toString(item.getDate()));
                             mainIntent.putExtra("content", item.getText());
                             mainIntent.putExtra("location", item.getCity() + " " + item.getCountry());
-                            mainIntent.putExtra("location_detail", item.getCountry() + ", " + item.getCity());
+                            mainIntent.putExtra("location_detail", item.getLocation());
                             mainIntent.putExtra("image", item.getImg());
 
                             context.startActivity(mainIntent);
