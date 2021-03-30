@@ -3,6 +3,7 @@ package org.techtown.memory_map;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -67,11 +68,9 @@ public class SettingView extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(sign_out.getContext(), "로그아웃되었습니다", Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().remove(SettingView.this).commit();
-                fragmentManager.popBackStack();
-                SettingView.this.onDestroy();
-                SettingView.this.onDetach();
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getContext().startActivity(intent);
 
             }
         });
