@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +31,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class RecordView extends Fragment {
 
     RecyclerView recyclerView;
+    SwipeRefreshLayout swipe;
     RecordAdapter adapter;
     TextView user_record;
 
@@ -38,9 +41,16 @@ public class RecordView extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_recordview, container, false);
-
+        swipe = rootView.findViewById(R.id.swipe);
         initUI(rootView);
-
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+                initUI(rootView);
+                swipe.setRefreshing(false);
+            }
+        });
         return rootView;
     }
 
