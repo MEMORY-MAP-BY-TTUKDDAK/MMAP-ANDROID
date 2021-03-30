@@ -49,4 +49,7 @@ public interface ServiceApi {
     @Multipart
     @PUT("/list/update/{markerIdx}")
     Call<ModifyResponse> modifyRecord(@Header("token")String token, @Path("markerIdx") int markerIdx, @Part MultipartBody.Part postImg, @PartMap HashMap<String, RequestBody> data);
+
+    @GET("/list/name/{userIdx}")
+    Call<NameResponse> getName(@Path("userIdx") int userIdx);
 }

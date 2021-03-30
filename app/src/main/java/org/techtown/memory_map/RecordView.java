@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class RecordView extends Fragment {
 
     RecyclerView recyclerView;
     RecordAdapter adapter;
+    TextView user_record;
 
     private ServiceApi serviceApi;
     private RecordResponse dataList;
@@ -45,6 +47,7 @@ public class RecordView extends Fragment {
 
     private void initUI(ViewGroup rootView) {
         recyclerView = rootView.findViewById(R.id.list_Recycler);
+        user_record = rootView.findViewById(R.id.user_record);
         Fragment fragment = this;
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -54,7 +57,28 @@ public class RecordView extends Fragment {
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("login", MODE_PRIVATE);
         int userIdx = sharedPreferences.getInt("userIdx", 0);
-        //int userIdx = 5;
+
+        Call<NameResponse> nameResponseCall = serviceApi.getName(userIdx);
+
+        nameResponseCall.enqueue(new Callback<NameResponse>() {
+            @Override
+            public void onResponse(Call<NameResponse> call, Response<NameResponse> response) {
+                NameResponse nameList = response.body();
+                if (nameList.getStatus() == 200) {
+                    String name = nameList.getData().get(0).getName();
+                    user_record.setText(name);
+                }
+                else {
+                    Toast.makeText(getContext(), nameList.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NameResponse> call, Throwable t) {
+                Log.e("이름 불러오기 실패", t.getMessage());
+                t.printStackTrace();
+            }
+        });
 
         Call<RecordResponse> call = serviceApi.getData(userIdx);
 
