@@ -1,10 +1,15 @@
 package org.techtown.memory_map;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,12 +30,19 @@ public class SettingView extends Fragment {
     TextView choice;
     TextView sign_out;
     TextView delete_account;
+    ServiceApi serviceApi;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settingview, container, false);
         spinner = root.findViewById(R.id.spinner_language);
         choice = root.findViewById(R.id.spinner_choice);
         sign_out = root.findViewById(R.id.sign_out_btn);
         delete_account = root.findViewById(R.id.delete_account_text);
+
+        serviceApi = RetrofitClient.getClient().create(ServiceApi.class);
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+        int userIdx = sharedPreferences.getInt("userIdx", 0);
 
         final String[] fields = {"한국어", "English"};
 
@@ -73,7 +85,7 @@ public class SettingView extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Toast.makeText(delete_account.getContext(), "계정을 삭제합니다. ", Toast.LENGTH_SHORT).show();
+                        startDeleteAcc(userIdx);
                     }
                 });
                 builder.setNegativeButton("아니오", new DialogInterface.OnClickListener(){
@@ -87,5 +99,29 @@ public class SettingView extends Fragment {
             }
         });
         return root;
+    }
+
+    private void startDeleteAcc(int userIdx){
+        serviceApi.deleteAccount(new DelAccData(userIdx)).enqueue(new Callback<AccDeleteResponse>() {
+            @Override
+            public void onResponse(Call<AccDeleteResponse> call, Response<AccDeleteResponse> response) {
+                AccDeleteResponse delResponse = response.body();
+
+                if (delResponse.getStatus() == 200) {
+                    Toast.makeText(getContext(), "계정이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getContext(), delResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AccDeleteResponse> call, Throwable t) {
+                Log.e("계정 삭제 오류", t.getMessage());
+                Toast.makeText(getContext(), "계정 삭제 오류", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

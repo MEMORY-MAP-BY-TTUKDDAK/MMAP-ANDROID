@@ -52,4 +52,7 @@ public interface ServiceApi {
 
     @GET("/list/name/{userIdx}")
     Call<NameResponse> getName(@Path("userIdx") int userIdx);
+
+    @HTTP(method = "DELETE", hasBody = true, path = "/setting/delete")
+    Call<AccDeleteResponse> deleteAccount(@Body DelAccData data);
 }
