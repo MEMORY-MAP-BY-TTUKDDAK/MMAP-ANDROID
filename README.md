@@ -32,14 +32,13 @@
         - 리스트 뷰 구현, 삭제 기능 구현 
         - 설정 뷰 계정 삭제 기능 구현
 
-  - BackEnd
+  - [BackEnd](https://github.com/MEMORY-MAP-BY-TTUKDDAK/MMAP-SERVER2 "MemoryMap")
     - 손예지  
     <img src = "https://user-images.githubusercontent.com/50194490/113519861-eb163b80-95c9-11eb-88ff-d9da71ffad2c.png" width = "100px">
     
         - DB 설계 및 구축
         - 서버 구축 & API 구현
         - 전반적인 서버관리
-        - [MMAP-SERVER](https://github.com/MEMORY-MAP-BY-TTUKDDAK/MMAP-SERVER2 "MemoryMap")
 
 
 # ❤️ View of Memory Map
@@ -80,6 +79,7 @@
 - Setting View
   - 로그아웃 기능
   - 계정 삭제 기능  
+
 
 # API & Library
 - Retrofit2 
