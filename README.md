@@ -39,7 +39,7 @@
         - DB 설계 및 구축
         - 서버 구축 & API 구현
         - 전반적인 서버관리
-        - [MMAP-SERVER](https://github.com/MEMORY-MAP-BY-TTUKDDAK/MMAP-SERVER2/)
+        - [MMAP-SERVER](https://github.com/MEMORY-MAP-BY-TTUKDDAK/MMAP-SERVER2 "MemoryMap")
 
 
 # ❤️ View of Memory Map
