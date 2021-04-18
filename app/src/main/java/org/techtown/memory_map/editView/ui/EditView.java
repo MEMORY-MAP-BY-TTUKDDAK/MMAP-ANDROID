@@ -75,7 +75,7 @@ public class EditView extends Fragment {
     private Context context;
     private static final int GALLERY_REQUEST_CODE = 301;
     private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 401;
-
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
     private ServiceApi serviceApi;
 
     Button Date_edit;
@@ -90,12 +90,8 @@ public class EditView extends Fragment {
     Bitmap bitmap;
     int userIdx;
     int resetDate;
-
-
     Uri photoUri;
     HashMap map;
-
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_editview, container, false);
@@ -119,6 +115,7 @@ public class EditView extends Fragment {
         SharedPreferences sharedPreferences = context.getSharedPreferences("login", MODE_PRIVATE);
         token = sharedPreferences.getString("token","");
         userIdx = sharedPreferences.getInt("userIdx", -1);
+
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
@@ -131,7 +128,6 @@ public class EditView extends Fragment {
 
         edit_image = rootView.findViewById(R.id.edit_Image);
         edit_image.setRadius(25f);
-
         edit_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,7 +173,7 @@ public class EditView extends Fragment {
                                     10);
                 } catch (IOException e) {
                     e.printStackTrace();
-                } // 여기까지 지오코더의 에러 잡는 try-catch
+                }
 
                 if(str.length() == 0 || str == null || text.length() == 0 || text == null || bitmap == null) {
                     Toast.makeText(save_button.getContext(), "모든 정보를 기재해주세요",Toast.LENGTH_SHORT).show();
@@ -214,6 +210,7 @@ public class EditView extends Fragment {
                                     country = citylist.get(0).getCountryName();
                                     detailAddress = citylist.get(0).getAddressLine(0);
 
+                                    //Retrofit 통신을 위한 RequestBody 생성
                                     RequestBody town = RequestBody.create(MediaType.parse("text/plain"),city);
                                     RequestBody nation = RequestBody.create(MediaType.parse("text/plain"),country);
                                     RequestBody texts = RequestBody.create(MediaType.parse("text/plain"),text);
@@ -258,8 +255,8 @@ public class EditView extends Fragment {
         MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("postImg", file.getName() ,requestBody);
 
         serviceApi.userEdit(token, uploadFile, map).enqueue(new Callback<EditResponse>() {
-            @Override
-            public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
+                @Override
+                public void onResponse(Call<EditResponse> call, Response<EditResponse> response) {
                 EditResponse result = response.body();
                 String temp = response.toString();
                 System.out.println(temp);
@@ -324,8 +321,6 @@ public class EditView extends Fragment {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
-                //edit_image.setImageBitmap(bitmap);
-
                 Cursor cursor = getContext().getContentResolver().query(Uri.parse(photoUri.toString()), null, null, null, null);
                 if(cursor == null) {
                     filepath = photoUri.getPath();
