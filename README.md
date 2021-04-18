@@ -40,6 +40,8 @@
         - 서버 구축 & API 구현
         - 전반적인 서버관리
 
+# 📁Project Structure
+<img src = "https://user-images.githubusercontent.com/50194490/115158936-aad7b280-a0cb-11eb-819a-a399c700c60d.png">
 
 # ❤️ View of Memory Map
 - HomeView   
@@ -59,7 +61,7 @@
 
     
 
-# Function of MemoryMap
+# 📋 Function of MemoryMap
 - Home View  
   - 로그인 기능
   - 회원가입 기능
@@ -81,7 +83,7 @@
   - 계정 삭제 기능  
 
 
-# API & Library
+# 📄 API & Library
 - Retrofit2 
 - GoogleMapAPI
 - Gson 
